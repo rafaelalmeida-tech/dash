@@ -1,0 +1,492 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Atualização RUB</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f4f7fb;
+    color:#1e293b;
+    padding:30px;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.title{
+    font-size:32px;
+    font-weight:700;
+}
+
+.subtitle{
+    color:#64748b;
+    margin-top:6px;
+}
+
+.last-update{
+    background:white;
+    padding:14px 18px;
+    border-radius:14px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    font-size:14px;
+    color:#475569;
+}
+
+/* =========================================
+   CARDS
+========================================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+}
+
+.card h3{
+    color:#64748b;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.card .value{
+    font-size:34px;
+    font-weight:700;
+}
+
+/* =========================================
+   TABELA
+========================================= */
+
+.table-container{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    overflow:auto;
+}
+
+.chart-title{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#eff6ff;
+}
+
+th{
+    padding:14px;
+    text-align:left;
+    color:#1e3a8a;
+    font-size:14px;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:14px;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status{
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+}
+
+.ok{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.warning{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.loading{
+    text-align:center;
+    padding:40px;
+    color:#64748b;
+}
+
+/* =========================================
+   RESPONSIVO
+========================================= */
+
+@media(max-width:900px){
+
+    body{
+        padding:15px;
+    }
+
+    .title{
+        font-size:26px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<div class="header">
+
+    <div>
+
+        <div class="title">
+            Dashboard Atualização RUB
+        </div>
+
+        <div class="subtitle">
+            Monitoramento dos Clientes
+        </div>
+
+    </div>
+
+    <div class="last-update">
+
+        Última atualização:
+        <strong id="lastUpdate">--</strong>
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     CARDS
+========================================= -->
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Total Clientes</h3>
+        <div class="value" id="totalClientes">0</div>
+    </div>
+
+    <div class="card">
+        <h3>Clientes acima da versão 25</h3>
+        <div class="value" id="clientesAcima25">0</div>
+    </div>
+
+    <div class="card">
+        <h3>Clientes abaixo da versão 25</h3>
+        <div class="value" id="clientesAbaixo25">0</div>
+    </div>
+
+</div>
+
+<!-- =========================================
+     TABELA
+========================================= -->
+
+<div class="table-container">
+
+    <div class="chart-title">
+        Clientes
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Cliente</th>
+                <th>Fase</th>
+                <th>Versão RUB</th>
+                <th>Java</th>
+                <th>Cliente Ativo</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="tabelaClientes">
+
+            <tr>
+                <td colspan="6" class="loading">
+                    Carregando dados...
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+/* =========================================
+   GOOGLE SHEETS
+========================================= */
+
+const SHEET_ID =
+'1iSwOxzOYCBXmseLHC3C9QHnsNZU6rps4BUX4_ecFu-U';
+
+const SHEET_NAME =
+'dashboard';
+
+const API_URL =
+`https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+
+/* =========================================
+   DATA / HORA
+========================================= */
+
+function atualizarHorario(){
+
+    const agora = new Date();
+
+    document.getElementById('lastUpdate').innerHTML =
+        agora.toLocaleDateString('pt-BR') +
+        ' ' +
+        agora.toLocaleTimeString('pt-BR');
+
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+function obterStatus(fase, ativo){
+
+    fase = String(fase).toLowerCase().trim();
+    ativo = String(ativo).toLowerCase().trim();
+
+    // IMPLANTAÇÃO = ATENÇÃO
+    if(fase.includes('implantação')){
+        return 'Atenção';
+    }
+
+    // CLIENTE NÃO ATIVO = ATENÇÃO
+    if(ativo !== 'sim'){
+        return 'Atenção';
+    }
+
+    // QUALQUER COISA DIFERENTE DE CONCLUÍDO
+    if(
+        fase !== 'concluído' &&
+        fase !== 'concluido'
+    ){
+        return 'Atenção';
+    }
+
+    // CONCLUÍDO + ATIVO
+    return 'Ativo';
+
+}
+
+function obterClasse(status){
+
+    status = status.toLowerCase();
+
+    if(status === 'atenção'){
+        return 'warning';
+    }
+
+    return 'ok';
+
+}
+
+/* =========================================
+   CARREGAR PLANILHA
+========================================= */
+
+async function carregarPlanilha(){
+
+    try{
+
+        const response =
+            await fetch(API_URL);
+
+        const data =
+            await response.json();
+
+        const tbody =
+            document.getElementById('tabelaClientes');
+
+        tbody.innerHTML = '';
+
+        let totalClientes = 0;
+        let clientesAcima25 = 0;
+        let clientesAbaixo25 = 0;
+
+        data.forEach(cliente => {
+
+            const nome =
+                cliente.CLIENTE || '';
+
+            const fase =
+                cliente.Fase || '';
+
+            const ativo =
+                cliente['Cliente Ativo'] || '';
+
+            const versaoRub =
+                cliente.VERSAO_RUB || '';
+
+            const java =
+                cliente.JAVA || '';
+
+            if(nome === '') return;
+
+            const status =
+                obterStatus(fase, ativo);
+
+            const classe =
+                obterClasse(status);
+
+            totalClientes++;
+
+            /* =========================================
+               CONTROLE DE VERSÃO
+            ========================================= */
+
+            const versaoNumero =
+                parseFloat(versaoRub);
+
+            if(!isNaN(versaoNumero)){
+
+                if(versaoNumero >= 25){
+
+                    clientesAcima25++;
+
+                }else{
+
+                    clientesAbaixo25++;
+
+                }
+
+            }
+
+            tbody.innerHTML += `
+
+                <tr>
+
+                    <td>${nome}</td>
+
+                    <td>${fase}</td>
+
+                    <td>${versaoRub}</td>
+
+                    <td>${java}</td>
+
+                    <td>${ativo}</td>
+
+                    <td>
+                        <span class="status ${classe}">
+                            ${status}
+                        </span>
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+        /* =========================================
+           ATUALIZA CARDS
+        ========================================= */
+
+        document.getElementById('totalClientes')
+            .innerHTML = totalClientes;
+
+        document.getElementById('clientesAcima25')
+            .innerHTML = clientesAcima25;
+
+        document.getElementById('clientesAbaixo25')
+            .innerHTML = clientesAbaixo25;
+
+        atualizarHorario();
+
+    }catch(error){
+
+        console.error(error);
+
+        document.getElementById('tabelaClientes')
+            .innerHTML = `
+                <tr>
+                    <td colspan="6" style="color:red;">
+                        Erro ao carregar dados da planilha
+                    </td>
+                </tr>
+            `;
+
+    }
+
+}
+
+/* =========================================
+   INICIAR
+========================================= */
+
+carregarPlanilha();
+
+/* =========================================
+   AUTO UPDATE
+========================================= */
+
+// 1 minuto
+setInterval(() => {
+
+    carregarPlanilha();
+
+}, 60000);
+
+</script>
+
+</body>
+</html>
+```
