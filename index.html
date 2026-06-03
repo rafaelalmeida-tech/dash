@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -24,8 +22,6 @@ body{
     color:#1e293b;
     padding:30px;
 }
-
-/* HEADER */
 
 .header{
     display:flex;
@@ -50,12 +46,10 @@ body{
     background:white;
     padding:14px 18px;
     border-radius:14px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    box-shadow:0 4px 15px rgba(0,0,0,.05);
     font-size:14px;
     color:#475569;
 }
-
-/* CARDS */
 
 .cards{
     display:grid;
@@ -68,7 +62,7 @@ body{
     background:white;
     border-radius:20px;
     padding:25px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
 }
 
 .card h3{
@@ -82,13 +76,11 @@ body{
     font-weight:700;
 }
 
-/* TABELA */
-
 .table-container{
     background:white;
     border-radius:20px;
     padding:25px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
     overflow:auto;
 }
 
@@ -120,8 +112,6 @@ td{
     font-size:14px;
 }
 
-/* STATUS */
-
 .status{
     padding:6px 12px;
     border-radius:999px;
@@ -145,8 +135,6 @@ td{
     color:#64748b;
 }
 
-/* RESPONSIVO */
-
 @media(max-width:900px){
 
     body{
@@ -160,17 +148,13 @@ td{
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
     <div>
-
         <div class="title">
             Dashboard Atualização RUB
         </div>
@@ -178,19 +162,14 @@ td{
         <div class="subtitle">
             Monitoramento dos Clientes
         </div>
-
     </div>
 
     <div class="last-update">
-
         Última atualização:
         <strong id="lastUpdate">--</strong>
-
     </div>
 
 </div>
-
-<!-- CARDS -->
 
 <div class="cards">
 
@@ -200,18 +179,16 @@ td{
     </div>
 
     <div class="card">
-        <h3>Clientes acima da versão 25</h3>
-        <div class="value" id="clientesAcima25">0</div>
+        <h3>Clientes acima da versão 26</h3>
+        <div class="value" id="clientesAcima26">0</div>
     </div>
 
     <div class="card">
-        <h3>Clientes abaixo da versão 25</h3>
-        <div class="value" id="clientesAbaixo25">0</div>
+        <h3>Clientes abaixo da versão 26</h3>
+        <div class="value" id="clientesAbaixo26">0</div>
     </div>
 
 </div>
-
-<!-- TABELA -->
 
 <div class="table-container">
 
@@ -222,7 +199,6 @@ td{
     <table>
 
         <thead>
-
             <tr>
                 <th>Cliente</th>
                 <th>Fase</th>
@@ -231,7 +207,6 @@ td{
                 <th>Tipo</th>
                 <th>Status</th>
             </tr>
-
         </thead>
 
         <tbody id="tabelaClientes">
@@ -261,7 +236,7 @@ const SHEET_NAME =
 const API_URL =
 `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
 
-/* DATA / HORA */
+/* DATA E HORA */
 
 function atualizarHorario(){
 
@@ -321,8 +296,8 @@ async function carregarPlanilha(){
         tbody.innerHTML = '';
 
         let totalClientes = 0;
-        let clientesAcima25 = 0;
-        let clientesAbaixo25 = 0;
+        let clientesAcima26 = 0;
+        let clientesAbaixo26 = 0;
 
         data.forEach(cliente => {
 
@@ -352,58 +327,50 @@ async function carregarPlanilha(){
             totalClientes++;
 
             const versaoNumero =
-                parseFloat(versaoRub);
+                parseFloat(
+                    String(versaoRub)
+                    .replace(',', '.')
+                );
 
             if(!isNaN(versaoNumero)){
 
-                if(versaoNumero >= 25){
+                if(versaoNumero >= 26){
 
-                    clientesAcima25++;
+                    clientesAcima26++;
 
                 }else{
 
-                    clientesAbaixo25++;
+                    clientesAbaixo26++;
 
                 }
 
             }
 
             tbody.innerHTML += `
-
                 <tr>
-
                     <td>${nome}</td>
-
                     <td>${fase}</td>
-
                     <td>${versaoRub}</td>
-
                     <td>${java}</td>
-
                     <td>${tipo}</td>
-
                     <td>
                         <span class="status ${classe}">
                             ${status}
                         </span>
                     </td>
-
                 </tr>
-
             `;
 
         });
 
-        /* CARDS */
-
         document.getElementById('totalClientes')
             .innerHTML = totalClientes;
 
-        document.getElementById('clientesAcima25')
-            .innerHTML = clientesAcima25;
+        document.getElementById('clientesAcima26')
+            .innerHTML = clientesAcima26;
 
-        document.getElementById('clientesAbaixo25')
-            .innerHTML = clientesAbaixo25;
+        document.getElementById('clientesAbaixo26')
+            .innerHTML = clientesAbaixo26;
 
         atualizarHorario();
 
@@ -428,7 +395,7 @@ async function carregarPlanilha(){
 
 carregarPlanilha();
 
-/* AUTO UPDATE */
+/* ATUALIZAÇÃO AUTOMÁTICA */
 
 setInterval(() => {
 
