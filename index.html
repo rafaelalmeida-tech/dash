@@ -10,139 +10,147 @@
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    font-family:'Inter',sans-serif;
-    background:#f4f7fb;
-    color:#1e293b;
-    padding:30px;
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f4f7fb;
+    color: #1e293b;
+    padding: 30px;
 }
 
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
-    flex-wrap:wrap;
-    gap:20px;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.title{
-    font-size:32px;
-    font-weight:700;
+.title {
+    font-size: 32px;
+    font-weight: 700;
 }
 
-.subtitle{
-    color:#64748b;
-    margin-top:6px;
+.subtitle {
+    color: #64748b;
+    margin-top: 6px;
 }
 
-.last-update{
-    background:white;
-    padding:14px 18px;
-    border-radius:14px;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
-    font-size:14px;
-    color:#475569;
+.last-update {
+    background: white;
+    padding: 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+    font-size: 14px;
+    color: #475569;
 }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin-bottom:30px;
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
-.card{
-    background:white;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 4px 20px rgba(0,0,0,.05);
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
 }
 
-.card h3{
-    color:#64748b;
-    font-size:14px;
-    margin-bottom:10px;
+.card h3 {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
-.card .value{
-    font-size:34px;
-    font-weight:700;
+.card .value {
+    font-size: 34px;
+    font-weight: 700;
 }
 
-.table-container{
-    background:white;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 4px 20px rgba(0,0,0,.05);
-    overflow:auto;
+.table-container {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
+    overflow: auto;
 }
 
-.chart-title{
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:20px;
+.chart-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
 }
 
-thead{
-    background:#eff6ff;
+thead {
+    background: #eff6ff;
 }
 
-th{
-    padding:14px;
-    text-align:left;
-    color:#1e3a8a;
-    font-size:14px;
+th {
+    padding: 14px;
+    text-align: left;
+    color: #1e3a8a;
+    font-size: 14px;
+    white-space: nowrap;
 }
 
-td{
-    padding:14px;
-    border-bottom:1px solid #e2e8f0;
-    font-size:14px;
+td {
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
 }
 
-.status{
-    padding:6px 12px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:600;
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
-.ok{
-    background:#dcfce7;
-    color:#166534;
+.ok {
+    background: #dcfce7;
+    color: #166534;
 }
 
-.warning{
-    background:#fef3c7;
-    color:#92400e;
+.warning {
+    background: #fef3c7;
+    color: #92400e;
 }
 
-.loading{
-    text-align:center;
-    padding:40px;
-    color:#64748b;
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
 }
 
-@media(max-width:900px){
+.error {
+    text-align: center;
+    color: red;
+}
 
-    body{
-        padding:15px;
+@media (max-width: 900px) {
+
+    body {
+        padding: 15px;
     }
 
-    .title{
-        font-size:26px;
+    .title {
+        font-size: 26px;
     }
 
 }
@@ -203,6 +211,7 @@ td{
                 <th>Cliente</th>
                 <th>Fase</th>
                 <th>Versão RUB</th>
+                <th>Versão Client Web</th>
                 <th>Java</th>
                 <th>Tipo</th>
                 <th>Status</th>
@@ -212,7 +221,7 @@ td{
         <tbody id="tabelaClientes">
 
             <tr>
-                <td colspan="6" class="loading">
+                <td colspan="7" class="loading">
                     Carregando dados...
                 </td>
             </tr>
@@ -228,21 +237,21 @@ td{
 /* GOOGLE SHEETS */
 
 const SHEET_ID =
-'1iSwOxzOYCBXmseLHC3C9QHnsNZU6rps4BUX4_ecFu-U';
+    '1iSwOxzOYCBXmseLHC3C9QHnsNZU6rps4BUX4_ecFu-U';
 
 const SHEET_NAME =
-'dashboard';
+    'dashboard';
 
 const API_URL =
-`https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+    `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
 
 /* DATA E HORA */
 
-function atualizarHorario(){
+function atualizarHorario() {
 
     const agora = new Date();
 
-    document.getElementById('lastUpdate').innerHTML =
+    document.getElementById('lastUpdate').textContent =
         agora.toLocaleDateString('pt-BR') +
         ' ' +
         agora.toLocaleTimeString('pt-BR');
@@ -251,14 +260,17 @@ function atualizarHorario(){
 
 /* STATUS */
 
-function obterStatus(fase){
+function obterStatus(fase) {
 
-    fase = String(fase).toLowerCase().trim();
+    const faseNormalizada =
+        String(fase || '')
+            .toLowerCase()
+            .trim();
 
-    if(
-        fase !== 'concluído' &&
-        fase !== 'concluido'
-    ){
+    if (
+        faseNormalizada !== 'concluído' &&
+        faseNormalizada !== 'concluido'
+    ) {
         return 'Atenção';
     }
 
@@ -266,11 +278,14 @@ function obterStatus(fase){
 
 }
 
-function obterClasse(status){
+function obterClasse(status) {
 
-    status = status.toLowerCase();
+    const statusNormalizado =
+        String(status || '')
+            .toLowerCase()
+            .trim();
 
-    if(status === 'atenção'){
+    if (statusNormalizado === 'atenção') {
         return 'warning';
     }
 
@@ -278,14 +293,35 @@ function obterClasse(status){
 
 }
 
+/* EVITAR INSERÇÃO DE HTML NOS DADOS */
+
+function escaparHTML(valor) {
+
+    return String(valor ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+
+}
+
 /* CARREGAR PLANILHA */
 
-async function carregarPlanilha(){
+async function carregarPlanilha() {
 
-    try{
+    try {
 
         const response =
-            await fetch(API_URL);
+            await fetch(API_URL, {
+                cache: 'no-store'
+            });
+
+        if (!response.ok) {
+            throw new Error(
+                `Erro HTTP: ${response.status}`
+            );
+        }
 
         const data =
             await response.json();
@@ -305,7 +341,9 @@ async function carregarPlanilha(){
                 cliente.CLIENTE || '';
 
             const fase =
-                cliente.Fase || '';
+                cliente.Fase ||
+                cliente.FASE ||
+                '';
 
             const tipo =
                 cliente.TIPO || '';
@@ -313,10 +351,26 @@ async function carregarPlanilha(){
             const versaoRub =
                 cliente.VERSAO_RUB || '';
 
+            /*
+             * Cabeçalho da planilha:
+             * Versão Client Web
+             *
+             * Também foram adicionadas alternativas
+             * para evitar problema caso o nome seja
+             * alterado para letras maiúsculas.
+             */
+            const versaoClientWeb =
+                cliente['Versão Client Web'] ||
+                cliente['VERSÃO CLIENT WEB'] ||
+                cliente.VERSAO_CLIENT_WEB ||
+                '';
+
             const java =
                 cliente.JAVA || '';
 
-            if(nome === '') return;
+            if (String(nome).trim() === '') {
+                return;
+            }
 
             const status =
                 obterStatus(fase);
@@ -329,59 +383,74 @@ async function carregarPlanilha(){
             const versaoNumero =
                 parseFloat(
                     String(versaoRub)
-                    .replace(',', '.')
+                        .replace(',', '.')
                 );
 
-            if(!isNaN(versaoNumero)){
+            if (!isNaN(versaoNumero)) {
 
-                if(versaoNumero >= 26){
-
+                if (versaoNumero >= 26) {
                     clientesAcima26++;
-
-                }else{
-
+                } else {
                     clientesAbaixo26++;
-
                 }
 
             }
 
-            tbody.innerHTML += `
+            tbody.insertAdjacentHTML(
+                'beforeend',
+                `
                 <tr>
-                    <td>${nome}</td>
-                    <td>${fase}</td>
-                    <td>${versaoRub}</td>
-                    <td>${java}</td>
-                    <td>${tipo}</td>
+                    <td>${escaparHTML(nome)}</td>
+                    <td>${escaparHTML(fase)}</td>
+                    <td>${escaparHTML(versaoRub)}</td>
+                    <td>${escaparHTML(versaoClientWeb)}</td>
+                    <td>${escaparHTML(java)}</td>
+                    <td>${escaparHTML(tipo)}</td>
                     <td>
                         <span class="status ${classe}">
-                            ${status}
+                            ${escaparHTML(status)}
                         </span>
+                    </td>
+                </tr>
+                `
+            );
+
+        });
+
+        if (totalClientes === 0) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="loading">
+                        Nenhum cliente encontrado
                     </td>
                 </tr>
             `;
 
-        });
+        }
 
         document.getElementById('totalClientes')
-            .innerHTML = totalClientes;
+            .textContent = totalClientes;
 
         document.getElementById('clientesAcima26')
-            .innerHTML = clientesAcima26;
+            .textContent = clientesAcima26;
 
         document.getElementById('clientesAbaixo26')
-            .innerHTML = clientesAbaixo26;
+            .textContent = clientesAbaixo26;
 
         atualizarHorario();
 
-    }catch(error){
+    } catch (error) {
 
-        console.error(error);
+        console.error(
+            'Erro ao carregar planilha:',
+            error
+        );
 
         document.getElementById('tabelaClientes')
             .innerHTML = `
                 <tr>
-                    <td colspan="6" style="color:red;">
+                    <td colspan="7" class="error">
                         Erro ao carregar dados da planilha
                     </td>
                 </tr>
@@ -395,17 +464,14 @@ async function carregarPlanilha(){
 
 carregarPlanilha();
 
-/* ATUALIZAÇÃO AUTOMÁTICA */
+/* ATUALIZAÇÃO AUTOMÁTICA A CADA 30 SEGUNDOS */
 
-setInterval(() => {
-
-    carregarPlanilha();
-
-}, 30000);
+setInterval(
+    carregarPlanilha,
+    30000
+);
 
 </script>
 
 </body>
 </html>
-
-
