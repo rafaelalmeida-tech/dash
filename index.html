@@ -6,7 +6,10 @@
 
 <title>Dashboard Atualização RUB</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
 
 <style>
 
@@ -79,9 +82,9 @@ body {
 .table-container {
     background: white;
     border-radius: 20px;
-    padding: 25px;
+    padding: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
-    overflow: auto;
+    overflow-x: auto;
 }
 
 .chart-title {
@@ -93,25 +96,68 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 900px;
+    table-layout: fixed;
 }
 
 thead {
     background: #eff6ff;
 }
 
-th {
-    padding: 14px;
-    text-align: left;
-    color: #1e3a8a;
+th,
+td {
+    padding: 10px 8px;
     font-size: 14px;
     white-space: nowrap;
+    border-bottom: 1px solid #e2e8f0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-td {
-    padding: 14px;
-    border-bottom: 1px solid #e2e8f0;
-    font-size: 14px;
+th {
+    color: #1e3a8a;
+    font-weight: 600;
+    text-align: left;
+}
+
+/* Largura das colunas */
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 18%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 12%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 13%;
+    text-align: center;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 15%;
+    text-align: center;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 8%;
+    text-align: center;
+}
+
+th:nth-child(6),
+td:nth-child(6) {
+    width: 14%;
+}
+
+th:nth-child(7),
+td:nth-child(7) {
+    width: 10%;
+    text-align: center;
 }
 
 .status {
@@ -151,6 +197,16 @@ td {
 
     .title {
         font-size: 26px;
+    }
+
+    table {
+        min-width: 850px;
+        table-layout: auto;
+    }
+
+    th,
+    td {
+        padding: 10px;
     }
 
 }
@@ -293,7 +349,7 @@ function obterClasse(status) {
 
 }
 
-/* EVITAR INSERÇÃO DE HTML NOS DADOS */
+/* EVITAR INSERÇÃO DE HTML */
 
 function escaparHTML(valor) {
 
@@ -351,14 +407,6 @@ async function carregarPlanilha() {
             const versaoRub =
                 cliente.VERSAO_RUB || '';
 
-            /*
-             * Cabeçalho da planilha:
-             * Versão Client Web
-             *
-             * Também foram adicionadas alternativas
-             * para evitar problema caso o nome seja
-             * alterado para letras maiúsculas.
-             */
             const versaoClientWeb =
                 cliente['Versão Client Web'] ||
                 cliente['VERSÃO CLIENT WEB'] ||
@@ -400,12 +448,30 @@ async function carregarPlanilha() {
                 'beforeend',
                 `
                 <tr>
-                    <td>${escaparHTML(nome)}</td>
-                    <td>${escaparHTML(fase)}</td>
-                    <td>${escaparHTML(versaoRub)}</td>
-                    <td>${escaparHTML(versaoClientWeb)}</td>
-                    <td>${escaparHTML(java)}</td>
-                    <td>${escaparHTML(tipo)}</td>
+                    <td title="${escaparHTML(nome)}">
+                        ${escaparHTML(nome)}
+                    </td>
+
+                    <td title="${escaparHTML(fase)}">
+                        ${escaparHTML(fase)}
+                    </td>
+
+                    <td title="${escaparHTML(versaoRub)}">
+                        ${escaparHTML(versaoRub)}
+                    </td>
+
+                    <td title="${escaparHTML(versaoClientWeb)}">
+                        ${escaparHTML(versaoClientWeb)}
+                    </td>
+
+                    <td title="${escaparHTML(java)}">
+                        ${escaparHTML(java)}
+                    </td>
+
+                    <td title="${escaparHTML(tipo)}">
+                        ${escaparHTML(tipo)}
+                    </td>
+
                     <td>
                         <span class="status ${classe}">
                             ${escaparHTML(status)}
