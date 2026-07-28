@@ -122,42 +122,31 @@ th {
 /* Largura das colunas */
 
 th:nth-child(1),
-td:nth-child(1) {
-    width: 18%;
+td:nth-child(1){
+    width:35%;
 }
 
 th:nth-child(2),
-td:nth-child(2) {
-    width: 12%;
+td:nth-child(2){
+    width:15%;
+    text-align:center;
 }
 
 th:nth-child(3),
-td:nth-child(3) {
-    width: 13%;
-    text-align: center;
+td:nth-child(3){
+    width:20%;
+    text-align:center;
 }
 
 th:nth-child(4),
-td:nth-child(4) {
-    width: 15%;
-    text-align: center;
+td:nth-child(4){
+    width:10%;
+    text-align:center;
 }
 
 th:nth-child(5),
-td:nth-child(5) {
-    width: 8%;
-    text-align: center;
-}
-
-th:nth-child(6),
-td:nth-child(6) {
-    width: 14%;
-}
-
-th:nth-child(7),
-td:nth-child(7) {
-    width: 10%;
-    text-align: center;
+td:nth-child(5){
+    width:20%;
 }
 
 .status {
@@ -265,12 +254,10 @@ td:nth-child(7) {
         <thead>
             <tr>
                 <th>Cliente</th>
-                <th>Fase</th>
                 <th>Versão RUB</th>
                 <th>Versão Client Web</th>
                 <th>Java</th>
                 <th>Tipo</th>
-                <th>Status</th>
             </tr>
         </thead>
 
@@ -316,38 +303,6 @@ function atualizarHorario() {
 
 /* STATUS */
 
-function obterStatus(fase) {
-
-    const faseNormalizada =
-        String(fase || '')
-            .toLowerCase()
-            .trim();
-
-    if (
-        faseNormalizada !== 'concluído' &&
-        faseNormalizada !== 'concluido'
-    ) {
-        return 'Atenção';
-    }
-
-    return 'Ativo';
-
-}
-
-function obterClasse(status) {
-
-    const statusNormalizado =
-        String(status || '')
-            .toLowerCase()
-            .trim();
-
-    if (statusNormalizado === 'atenção') {
-        return 'warning';
-    }
-
-    return 'ok';
-
-}
 
 /* EVITAR INSERÇÃO DE HTML */
 
@@ -396,11 +351,7 @@ async function carregarPlanilha() {
             const nome =
                 cliente.CLIENTE || '';
 
-            const fase =
-                cliente.Fase ||
-                cliente.FASE ||
-                '';
-
+        
             const tipo =
                 cliente.TIPO || '';
 
@@ -419,9 +370,6 @@ async function carregarPlanilha() {
             if (String(nome).trim() === '') {
                 return;
             }
-
-            const status =
-                obterStatus(fase);
 
             const classe =
                 obterClasse(status);
@@ -444,50 +392,38 @@ async function carregarPlanilha() {
 
             }
 
-            tbody.insertAdjacentHTML(
-                'beforeend',
-                `
-                <tr>
-                    <td title="${escaparHTML(nome)}">
-                        ${escaparHTML(nome)}
-                    </td>
+           tbody.insertAdjacentHTML(
+    'beforeend',
+    `
+    <tr>
+        <td title="${escaparHTML(nome)}">
+            ${escaparHTML(nome)}
+        </td>
 
-                    <td title="${escaparHTML(fase)}">
-                        ${escaparHTML(fase)}
-                    </td>
+        <td title="${escaparHTML(versaoRub)}">
+            ${escaparHTML(versaoRub)}
+        </td>
 
-                    <td title="${escaparHTML(versaoRub)}">
-                        ${escaparHTML(versaoRub)}
-                    </td>
+        <td title="${escaparHTML(versaoClientWeb)}">
+            ${escaparHTML(versaoClientWeb)}
+        </td>
 
-                    <td title="${escaparHTML(versaoClientWeb)}">
-                        ${escaparHTML(versaoClientWeb)}
-                    </td>
+        <td title="${escaparHTML(java)}">
+            ${escaparHTML(java)}
+        </td>
 
-                    <td title="${escaparHTML(java)}">
-                        ${escaparHTML(java)}
-                    </td>
-
-                    <td title="${escaparHTML(tipo)}">
-                        ${escaparHTML(tipo)}
-                    </td>
-
-                    <td>
-                        <span class="status ${classe}">
-                            ${escaparHTML(status)}
-                        </span>
-                    </td>
-                </tr>
-                `
-            );
-
-        });
+        <td title="${escaparHTML(tipo)}">
+            ${escaparHTML(tipo)}
+        </td>
+    </tr>
+    `
+);
 
         if (totalClientes === 0) {
 
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="7" class="loading">
+                    <td colspan="5" class="loading">
                         Nenhum cliente encontrado
                     </td>
                 </tr>
