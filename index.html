@@ -12,6 +12,18 @@
 >
 
 <style>
+:root {
+    --background: #f4f7fb;
+    --surface: #ffffff;
+    --primary: #1d4ed8;
+    --primary-light: #eff6ff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --danger: #dc2626;
+    --success: #15803d;
+    --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
 
 * {
     margin: 0;
@@ -20,19 +32,20 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: #f4f7fb;
-    color: #1e293b;
+    min-height: 100vh;
     padding: 30px;
+    font-family: "Inter", sans-serif;
+    color: var(--text);
+    background: var(--background);
 }
 
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 20px;
     margin-bottom: 30px;
     flex-wrap: wrap;
-    gap: 20px;
 }
 
 .title {
@@ -41,17 +54,17 @@ body {
 }
 
 .subtitle {
-    color: #64748b;
     margin-top: 6px;
+    color: var(--muted);
 }
 
 .last-update {
-    background: white;
     padding: 14px 18px;
     border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
-    font-size: 14px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
     color: #475569;
+    font-size: 14px;
 }
 
 .cards {
@@ -62,16 +75,17 @@ body {
 }
 
 .card {
-    background: white;
-    border-radius: 20px;
     padding: 25px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
 }
 
 .card h3 {
-    color: #64748b;
-    font-size: 14px;
     margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .card .value {
@@ -80,37 +94,115 @@ body {
 }
 
 .table-container {
-    background: white;
-    border-radius: 20px;
     padding: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
-    overflow-x: auto;
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .chart-title {
     font-size: 18px;
     font-weight: 600;
+}
+
+.result-count {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: minmax(220px, 2fr) repeat(4, minmax(150px, 1fr)) auto;
+    gap: 12px;
     margin-bottom: 20px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-group label {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.filter-control {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    outline: none;
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+}
+
+.clear-button {
+    align-self: end;
+    height: 42px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--primary);
+    color: #ffffff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.clear-button:hover {
+    opacity: 0.92;
+}
+
+.clear-button:active {
+    transform: translateY(1px);
+}
+
+.table-scroll {
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
+    min-width: 850px;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
 thead {
-    background: #eff6ff;
+    background: var(--primary-light);
 }
 
 th,
 td {
-    padding: 10px 8px;
-    font-size: 14px;
-    white-space: nowrap;
-    border-bottom: 1px solid #e2e8f0;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border);
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
 }
 
 th {
@@ -119,49 +211,69 @@ th {
     text-align: left;
 }
 
-/* Largura das colunas */
+tbody tr:hover {
+    background: #f8fafc;
+}
 
 th:nth-child(1),
 td:nth-child(1) {
-    width: 18%;
+    width: 28%;
 }
 
 th:nth-child(2),
 td:nth-child(2) {
-    width: 12%;
+    width: 16%;
+    text-align: center;
 }
 
 th:nth-child(3),
 td:nth-child(3) {
-    width: 13%;
+    width: 20%;
     text-align: center;
 }
 
 th:nth-child(4),
 td:nth-child(4) {
-    width: 15%;
+    width: 18%;
     text-align: center;
 }
 
 th:nth-child(5),
 td:nth-child(5) {
-    width: 8%;
+    width: 18%;
     text-align: center;
 }
 
-.loading {
-    text-align: center;
+.loading,
+.empty,
+.error {
     padding: 40px;
-    color: #64748b;
+    text-align: center;
+}
+
+.loading,
+.empty {
+    color: var(--muted);
 }
 
 .error {
-    text-align: center;
-    color: red;
+    color: var(--danger);
 }
 
-@media (max-width: 900px) {
+.footer-note {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: right;
+}
 
+@media (max-width: 1200px) {
+    .filters {
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
     body {
         padding: 15px;
     }
@@ -170,141 +282,517 @@ td:nth-child(5) {
         font-size: 26px;
     }
 
-    table {
-        min-width: 850px;
-        table-layout: auto;
+    .filters {
+        grid-template-columns: 1fr;
     }
 
-    th,
-    td {
-        padding: 10px;
+    .clear-button {
+        width: 100%;
     }
 
+    .last-update {
+        width: 100%;
+    }
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="header">
-
+<header class="header">
     <div>
-        <div class="title">
-            Dashboard Atualização RUB
-        </div>
-
-        <div class="subtitle">
-            Monitoramento dos Clientes
-        </div>
+        <div class="title">Dashboard Atualização RUB</div>
+        <div class="subtitle">Monitoramento dos clientes</div>
     </div>
 
     <div class="last-update">
         Última atualização:
         <strong id="lastUpdate">--</strong>
     </div>
+</header>
 
-</div>
-
-<div class="cards">
-
-    <div class="card">
-        <h3>Total Clientes</h3>
+<section class="cards">
+    <article class="card">
+        <h3>Total de clientes</h3>
         <div class="value" id="totalClientes">0</div>
-    </div>
+    </article>
 
-    <div class="card">
-        <h3>Clientes versão 26</h3>
+    <article class="card">
+        <h3>Clientes na versão 26 ou superior</h3>
         <div class="value" id="clientesAcima26">0</div>
-    </div>
+    </article>
 
-    <div class="card">
+    <article class="card">
         <h3>Clientes abaixo da versão 26</h3>
         <div class="value" id="clientesAbaixo26">0</div>
+    </article>
+</section>
+
+<section class="table-container">
+    <div class="table-header">
+        <div class="chart-title">Clientes</div>
+        <div class="result-count" id="contadorResultados">0 resultado(s)</div>
     </div>
 
-</div>
+    <div class="filters">
+        <div class="filter-group">
+            <label for="filtroCliente">Cliente</label>
+            <input
+                id="filtroCliente"
+                class="filter-control"
+                type="search"
+                placeholder="Pesquisar cliente..."
+                autocomplete="off"
+            >
+        </div>
 
-<div class="table-container">
+        <div class="filter-group">
+            <label for="filtroVersaoRub">Versão RUB</label>
+            <select id="filtroVersaoRub" class="filter-control">
+                <option value="">Todas</option>
+            </select>
+        </div>
 
-    <div class="chart-title">
-        Clientes
+        <div class="filter-group">
+            <label for="filtroClientWeb">Versão Client Web</label>
+            <select id="filtroClientWeb" class="filter-control">
+                <option value="">Todas</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filtroJava">Java</label>
+            <select id="filtroJava" class="filter-control">
+                <option value="">Todos</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filtroTipo">Tipo</label>
+            <select id="filtroTipo" class="filter-control">
+                <option value="">Todos</option>
+            </select>
+        </div>
+
+        <button id="limparFiltros" class="clear-button" type="button">
+            Limpar filtros
+        </button>
     </div>
 
-    <table>
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Versão RUB</th>
+                    <th>Versão Client Web</th>
+                    <th>Java</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
 
-        <thead>
-            <tr>
-                <th>Cliente</th>
-                <th>Versão RUB</th>
-                <th>Versão Client Web</th>
-                <th>Java</th>
-                <th>Tipo</th>
-            </tr>
-        </thead>
+            <tbody id="tabelaClientes">
+                <tr>
+                    <td colspan="5" class="loading">
+                        Carregando dados...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <tbody id="tabelaClientes">
-
-            <tr>
-                <td colspan="5" class="loading">
-                    Carregando dados...
-                </td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
-</div>
+    <div class="footer-note">
+        Atualização automática a cada 30 segundos.
+    </div>
+</section>
 
 <script>
+"use strict";
 
 /* GOOGLE SHEETS */
 
 const SHEET_ID =
-    '1iSwOxzOYCBXmseLHC3C9QHnsNZU6rps4BUX4_ecFu-U';
+    "1iSwOxzOYCBXmseLHC3C9QHnsNZU6rps4BUX4_ecFu-U";
 
 const SHEET_NAME =
-    'dashboard';
+    "dashboard";
 
 const API_URL =
     `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
 
-/* DATA E HORA */
+/* DADOS */
 
-function atualizarHorario() {
+let todosClientes = [];
+let clientesFiltrados = [];
 
-    const agora = new Date();
+/* ELEMENTOS */
 
-    document.getElementById('lastUpdate').textContent =
-        agora.toLocaleDateString('pt-BR') +
-        ' ' +
-        agora.toLocaleTimeString('pt-BR');
+const elementos = {
+    tabela: document.getElementById("tabelaClientes"),
+    totalClientes: document.getElementById("totalClientes"),
+    clientesAcima26: document.getElementById("clientesAcima26"),
+    clientesAbaixo26: document.getElementById("clientesAbaixo26"),
+    contadorResultados: document.getElementById("contadorResultados"),
+    lastUpdate: document.getElementById("lastUpdate"),
+    filtroCliente: document.getElementById("filtroCliente"),
+    filtroVersaoRub: document.getElementById("filtroVersaoRub"),
+    filtroClientWeb: document.getElementById("filtroClientWeb"),
+    filtroJava: document.getElementById("filtroJava"),
+    filtroTipo: document.getElementById("filtroTipo"),
+    limparFiltros: document.getElementById("limparFiltros")
+};
 
+/* UTILITÁRIOS */
+
+function normalizarTexto(valor) {
+    return String(valor ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLowerCase();
 }
-
-/* EVITAR INSERÇÃO DE HTML */
 
 function escaparHTML(valor) {
-
-    return String(valor ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-
+    return String(valor ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
-/* CARREGAR PLANILHA */
+function obterCampo(cliente, nomes) {
+    for (const nome of nomes) {
+        const valor = cliente[nome];
+
+        if (
+            valor !== undefined &&
+            valor !== null &&
+            String(valor).trim() !== ""
+        ) {
+            return String(valor).trim();
+        }
+    }
+
+    return "";
+}
+
+function obterDadosCliente(cliente) {
+    return {
+        nome: obterCampo(cliente, [
+            "CLIENTE",
+            "Cliente",
+            "cliente"
+        ]),
+        versaoRub: obterCampo(cliente, [
+            "VERSAO_RUB",
+            "VERSÃO RUB",
+            "Versão RUB",
+            "Versao RUB"
+        ]),
+        versaoClientWeb: obterCampo(cliente, [
+            "Versão Client Web",
+            "VERSÃO CLIENT WEB",
+            "VERSAO_CLIENT_WEB",
+            "Versao Client Web"
+        ]),
+        java: obterCampo(cliente, [
+            "JAVA",
+            "Java",
+            "java"
+        ]),
+        tipo: obterCampo(cliente, [
+            "TIPO",
+            "Tipo",
+            "tipo"
+        ])
+    };
+}
+
+function obterNumeroVersao(valor) {
+    const correspondencia =
+        String(valor ?? "")
+            .replace(",", ".")
+            .match(/\d+(?:\.\d+)?/);
+
+    return correspondencia
+        ? Number.parseFloat(correspondencia[0])
+        : Number.NaN;
+}
+
+function atualizarHorario() {
+    const agora = new Date();
+
+    elementos.lastUpdate.textContent =
+        agora.toLocaleDateString("pt-BR") +
+        " " +
+        agora.toLocaleTimeString("pt-BR");
+}
+
+function ordenarValores(valores) {
+    return [...valores].sort((a, b) =>
+        String(a).localeCompare(
+            String(b),
+            "pt-BR",
+            {
+                numeric: true,
+                sensitivity: "base"
+            }
+        )
+    );
+}
+
+/* TABELA */
+
+function montarTabela(lista) {
+    const clientesValidos =
+        lista.filter(cliente =>
+            obterDadosCliente(cliente).nome !== ""
+        );
+
+    elementos.tabela.innerHTML = "";
+
+    if (clientesValidos.length === 0) {
+        elementos.tabela.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    Nenhum cliente encontrado para os filtros selecionados.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    const linhas =
+        clientesValidos.map(cliente => {
+            const dados = obterDadosCliente(cliente);
+
+            return `
+                <tr>
+                    <td title="${escaparHTML(dados.nome)}">
+                        ${escaparHTML(dados.nome)}
+                    </td>
+                    <td title="${escaparHTML(dados.versaoRub)}">
+                        ${escaparHTML(dados.versaoRub)}
+                    </td>
+                    <td title="${escaparHTML(dados.versaoClientWeb)}">
+                        ${escaparHTML(dados.versaoClientWeb)}
+                    </td>
+                    <td title="${escaparHTML(dados.java)}">
+                        ${escaparHTML(dados.java)}
+                    </td>
+                    <td title="${escaparHTML(dados.tipo)}">
+                        ${escaparHTML(dados.tipo)}
+                    </td>
+                </tr>
+            `;
+        }).join("");
+
+    elementos.tabela.innerHTML = linhas;
+}
+
+/* CARDS */
+
+function atualizarCards(lista) {
+    let totalClientes = 0;
+    let clientesAcima26 = 0;
+    let clientesAbaixo26 = 0;
+
+    lista.forEach(cliente => {
+        const dados = obterDadosCliente(cliente);
+
+        if (dados.nome === "") {
+            return;
+        }
+
+        totalClientes++;
+
+        const versaoNumero =
+            obterNumeroVersao(dados.versaoRub);
+
+        if (Number.isNaN(versaoNumero)) {
+            return;
+        }
+
+        if (versaoNumero >= 26) {
+            clientesAcima26++;
+        } else {
+            clientesAbaixo26++;
+        }
+    });
+
+    elementos.totalClientes.textContent =
+        totalClientes;
+
+    elementos.clientesAcima26.textContent =
+        clientesAcima26;
+
+    elementos.clientesAbaixo26.textContent =
+        clientesAbaixo26;
+
+    elementos.contadorResultados.textContent =
+        `${totalClientes} resultado(s)`;
+}
+
+/* FILTROS */
+
+function preencherSelect(select, valores, textoInicial) {
+    const valorSelecionado = select.value;
+
+    select.innerHTML =
+        `<option value="">${textoInicial}</option>`;
+
+    ordenarValores(valores).forEach(valor => {
+        const option =
+            document.createElement("option");
+
+        option.value = valor;
+        option.textContent = valor;
+
+        select.appendChild(option);
+    });
+
+    if (
+        valorSelecionado &&
+        [...select.options].some(
+            option => option.value === valorSelecionado
+        )
+    ) {
+        select.value = valorSelecionado;
+    }
+}
+
+function preencherFiltros() {
+    const versoesRub = new Set();
+    const versoesClientWeb = new Set();
+    const versoesJava = new Set();
+    const tipos = new Set();
+
+    todosClientes.forEach(cliente => {
+        const dados = obterDadosCliente(cliente);
+
+        if (dados.nome === "") {
+            return;
+        }
+
+        if (dados.versaoRub) {
+            versoesRub.add(dados.versaoRub);
+        }
+
+        if (dados.versaoClientWeb) {
+            versoesClientWeb.add(dados.versaoClientWeb);
+        }
+
+        if (dados.java) {
+            versoesJava.add(dados.java);
+        }
+
+        if (dados.tipo) {
+            tipos.add(dados.tipo);
+        }
+    });
+
+    preencherSelect(
+        elementos.filtroVersaoRub,
+        versoesRub,
+        "Todas"
+    );
+
+    preencherSelect(
+        elementos.filtroClientWeb,
+        versoesClientWeb,
+        "Todas"
+    );
+
+    preencherSelect(
+        elementos.filtroJava,
+        versoesJava,
+        "Todos"
+    );
+
+    preencherSelect(
+        elementos.filtroTipo,
+        tipos,
+        "Todos"
+    );
+}
+
+function aplicarFiltros() {
+    const buscaCliente =
+        normalizarTexto(elementos.filtroCliente.value);
+
+    const versaoRub =
+        elementos.filtroVersaoRub.value;
+
+    const versaoClientWeb =
+        elementos.filtroClientWeb.value;
+
+    const java =
+        elementos.filtroJava.value;
+
+    const tipo =
+        elementos.filtroTipo.value;
+
+    clientesFiltrados =
+        todosClientes.filter(cliente => {
+            const dados = obterDadosCliente(cliente);
+
+            if (dados.nome === "") {
+                return false;
+            }
+
+            const correspondeCliente =
+                !buscaCliente ||
+                normalizarTexto(dados.nome)
+                    .includes(buscaCliente);
+
+            const correspondeVersaoRub =
+                !versaoRub ||
+                dados.versaoRub === versaoRub;
+
+            const correspondeClientWeb =
+                !versaoClientWeb ||
+                dados.versaoClientWeb === versaoClientWeb;
+
+            const correspondeJava =
+                !java ||
+                dados.java === java;
+
+            const correspondeTipo =
+                !tipo ||
+                dados.tipo === tipo;
+
+            return (
+                correspondeCliente &&
+                correspondeVersaoRub &&
+                correspondeClientWeb &&
+                correspondeJava &&
+                correspondeTipo
+            );
+        });
+
+    montarTabela(clientesFiltrados);
+    atualizarCards(clientesFiltrados);
+}
+
+function limparFiltros() {
+    elementos.filtroCliente.value = "";
+    elementos.filtroVersaoRub.value = "";
+    elementos.filtroClientWeb.value = "";
+    elementos.filtroJava.value = "";
+    elementos.filtroTipo.value = "";
+
+    aplicarFiltros();
+}
+
+/* CARREGAMENTO */
 
 async function carregarPlanilha() {
-
     try {
-
         const response =
             await fetch(API_URL, {
-                cache: 'no-store'
+                cache: "no-store"
             });
 
         if (!response.ok) {
@@ -313,127 +801,79 @@ async function carregarPlanilha() {
             );
         }
 
-        const data =
+        const dadosRecebidos =
             await response.json();
 
-        const tbody =
-            document.getElementById('tabelaClientes');
-
-        tbody.innerHTML = '';
-
-        let totalClientes = 0;
-        let clientesAcima26 = 0;
-        let clientesAbaixo26 = 0;
-
-        data.forEach(cliente => {
-
-            const nome =
-                cliente.CLIENTE || '';
-            const tipo =
-                cliente.TIPO || '';
-
-            const versaoRub =
-                cliente.VERSAO_RUB || '';
-
-            const versaoClientWeb =
-                cliente['Versão Client Web'] ||
-                cliente['VERSÃO CLIENT WEB'] ||
-                cliente.VERSAO_CLIENT_WEB ||
-                '';
-
-            const java =
-                cliente.JAVA || '';
-
-            if (String(nome).trim() === '') {
-                return;
-            }
-            totalClientes++;
-
-            const versaoNumero =
-                parseFloat(
-                    String(versaoRub)
-                        .replace(',', '.')
-                );
-
-            if (!isNaN(versaoNumero)) {
-
-                if (versaoNumero >= 26) {
-                    clientesAcima26++;
-                } else {
-                    clientesAbaixo26++;
-                }
-
-            }
-
-            tbody.insertAdjacentHTML(
-                'beforeend',
-                `
-                <tr>
-                    <td title="${escaparHTML(nome)}">${escaparHTML(nome)}</td>
-                    <td title="${escaparHTML(versaoRub)}">${escaparHTML(versaoRub)}</td>
-                    <td title="${escaparHTML(versaoClientWeb)}">${escaparHTML(versaoClientWeb)}</td>
-                    <td title="${escaparHTML(java)}">${escaparHTML(java)}</td>
-                    <td title="${escaparHTML(tipo)}">${escaparHTML(tipo)}</td>
-                </tr>
-                `
+        if (!Array.isArray(dadosRecebidos)) {
+            throw new Error(
+                "A resposta da planilha não está no formato esperado."
             );
-
-        });
-
-        if (totalClientes === 0) {
-
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="5" class="loading">
-                        Nenhum cliente encontrado
-                    </td>
-                </tr>
-            `;
-
         }
 
-        document.getElementById('totalClientes')
-            .textContent = totalClientes;
+        todosClientes = dadosRecebidos;
 
-        document.getElementById('clientesAcima26')
-            .textContent = clientesAcima26;
-
-        document.getElementById('clientesAbaixo26')
-            .textContent = clientesAbaixo26;
-
+        preencherFiltros();
+        aplicarFiltros();
         atualizarHorario();
-
     } catch (error) {
-
         console.error(
-            'Erro ao carregar planilha:',
+            "Erro ao carregar planilha:",
             error
         );
 
-        document.getElementById('tabelaClientes')
-            .innerHTML = `
-                <tr>
-                    <td colspan="5" class="error">
-                        Erro ao carregar dados da planilha
-                    </td>
-                </tr>
-            `;
+        elementos.tabela.innerHTML = `
+            <tr>
+                <td colspan="5" class="error">
+                    Erro ao carregar os dados da planilha.
+                </td>
+            </tr>
+        `;
 
+        elementos.contadorResultados.textContent =
+            "Erro no carregamento";
     }
-
 }
+
+/* EVENTOS */
+
+elementos.filtroCliente.addEventListener(
+    "input",
+    aplicarFiltros
+);
+
+elementos.filtroVersaoRub.addEventListener(
+    "change",
+    aplicarFiltros
+);
+
+elementos.filtroClientWeb.addEventListener(
+    "change",
+    aplicarFiltros
+);
+
+elementos.filtroJava.addEventListener(
+    "change",
+    aplicarFiltros
+);
+
+elementos.filtroTipo.addEventListener(
+    "change",
+    aplicarFiltros
+);
+
+elementos.limparFiltros.addEventListener(
+    "click",
+    limparFiltros
+);
 
 /* INICIAR */
 
 carregarPlanilha();
 
-/* ATUALIZAÇÃO AUTOMÁTICA A CADA 30 SEGUNDOS */
-
 setInterval(
     carregarPlanilha,
     30000
 );
-
 </script>
 
 </body>
