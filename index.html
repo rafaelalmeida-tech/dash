@@ -217,31 +217,13 @@ tbody tr:hover {
 
 th:nth-child(1),
 td:nth-child(1) {
-    width: 28%;
+    width: 22%;
 }
 
-th:nth-child(2),
-td:nth-child(2) {
-    width: 16%;
-    text-align: center;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-    width: 20%;
-    text-align: center;
-}
-
-th:nth-child(4),
-td:nth-child(4) {
+th:nth-child(6),
+td:nth-child(6) {
     width: 18%;
-    text-align: center;
-}
-
-th:nth-child(5),
-td:nth-child(5) {
-    width: 18%;
-    text-align: center;
+    text-align:center;
 }
 
 .loading,
@@ -388,13 +370,17 @@ td:nth-child(5) {
                     <th>Versão Client Web</th>
                     <th>Java</th>
                     <th>Tipo</th>
+                    <th>Data</th>
                 </tr>
             </thead>
 
             <tbody id="tabelaClientes">
                 <tr>
-                    <td colspan="5" class="loading">
+                    <td colspan="6" class="loading">
                         Carregando dados...
+                    </td>
+                    <td title="${escaparHTML(dados.data)}">
+                        ${escaparHTML(dados.data)}
                     </td>
                 </tr>
             </tbody>
@@ -505,6 +491,11 @@ function obterDadosCliente(cliente) {
             "TIPO",
             "Tipo",
             "tipo"
+        ]),
+        data: obterCampo(cliente, [
+            "DATA",
+            "Data",
+            "data"
         ])
     };
 }
@@ -555,7 +546,7 @@ function montarTabela(lista) {
     if (clientesValidos.length === 0) {
         elementos.tabela.innerHTML = `
             <tr>
-                <td colspan="5" class="empty">
+                <td colspan="6" class="empty">
                     Nenhum cliente encontrado para os filtros selecionados.
                 </td>
             </tr>
@@ -823,7 +814,7 @@ async function carregarPlanilha() {
 
         elementos.tabela.innerHTML = `
             <tr>
-                <td colspan="5" class="error">
+                <td colspan="6" class="error">
                     Erro ao carregar os dados da planilha.
                 </td>
             </tr>
