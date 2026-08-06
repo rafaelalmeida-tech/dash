@@ -121,7 +121,7 @@ body {
 
 .filters {
     display: grid;
-    grid-template-columns: minmax(220px, 2fr) repeat(4, minmax(150px, 1fr)) auto;
+    grid-template-columns: minmax(220px, 2fr) repeat(5, minmax(140px, 1fr)) auto;
     gap: 12px;
     margin-bottom: 20px;
 }
@@ -186,7 +186,7 @@ body {
 
 table {
     width: 100%;
-    min-width: 850px;
+    min-width: 1000px;
     border-collapse: collapse;
     table-layout: fixed;
 }
@@ -220,10 +220,34 @@ td:nth-child(1) {
     width: 22%;
 }
 
+th:nth-child(2),
+td:nth-child(2) {
+    width: 14%;
+    text-align: center;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 18%;
+    text-align: center;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 10%;
+    text-align: center;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 18%;
+    text-align: center;
+}
+
 th:nth-child(6),
 td:nth-child(6) {
     width: 18%;
-    text-align:center;
+    text-align: center;
 }
 
 .loading,
@@ -356,6 +380,15 @@ td:nth-child(6) {
             </select>
         </div>
 
+        <div class="filter-group">
+            <label for="filtroData">Data</label>
+            <input
+                id="filtroData"
+                class="filter-control"
+                type="date"
+            >
+        </div>
+
         <button id="limparFiltros" class="clear-button" type="button">
             Limpar filtros
         </button>
@@ -378,9 +411,6 @@ td:nth-child(6) {
                 <tr>
                     <td colspan="6" class="loading">
                         Carregando dados...
-                    </td>
-                    <td title="${escaparHTML(dados.data)}">
-                        ${escaparHTML(dados.data)}
                     </td>
                 </tr>
             </tbody>
@@ -425,6 +455,7 @@ const elementos = {
     filtroClientWeb: document.getElementById("filtroClientWeb"),
     filtroJava: document.getElementById("filtroJava"),
     filtroTipo: document.getElementById("filtroTipo"),
+    filtroData: document.getElementById("filtroData"),
     limparFiltros: document.getElementById("limparFiltros")
 };
 
@@ -495,9 +526,43 @@ function obterDadosCliente(cliente) {
         data: obterCampo(cliente, [
             "DATA",
             "Data",
-            "data"
+            "data",
+            "DATA ATUALIZAÇÃO",
+            "Data Atualização",
+            "Data Atualizacao"
         ])
     };
+}
+
+
+function normalizarDataParaISO(valor) {
+    const texto = String(valor ?? "").trim();
+
+    if (!texto) {
+        return "";
+    }
+
+    const dataBrasileira = texto.match(
+        /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+    );
+
+    if (dataBrasileira) {
+        const [, dia, mes, ano] = dataBrasileira;
+
+        return `${ano}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+    }
+
+    const dataISO = texto.match(
+        /^(\d{4})-(\d{1,2})-(\d{1,2})/
+    );
+
+    if (dataISO) {
+        const [, ano, mes, dia] = dataISO;
+
+        return `${ano}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+    }
+
+    return "";
 }
 
 function obterNumeroVersao(valor) {
@@ -575,6 +640,9 @@ function montarTabela(lista) {
                     </td>
                     <td title="${escaparHTML(dados.tipo)}">
                         ${escaparHTML(dados.tipo)}
+                    </td>
+                    <td title="${escaparHTML(dados.data)}">
+                        ${escaparHTML(dados.data)}
                     </td>
                 </tr>
             `;
@@ -725,6 +793,9 @@ function aplicarFiltros() {
     const tipo =
         elementos.filtroTipo.value;
 
+    const data =
+        elementos.filtroData.value;
+
     clientesFiltrados =
         todosClientes.filter(cliente => {
             const dados = obterDadosCliente(cliente);
@@ -754,12 +825,17 @@ function aplicarFiltros() {
                 !tipo ||
                 dados.tipo === tipo;
 
+            const correspondeData =
+                !data ||
+                normalizarDataParaISO(dados.data) === data;
+
             return (
                 correspondeCliente &&
                 correspondeVersaoRub &&
                 correspondeClientWeb &&
                 correspondeJava &&
-                correspondeTipo
+                correspondeTipo &&
+                correspondeData
             );
         });
 
@@ -773,6 +849,7 @@ function limparFiltros() {
     elementos.filtroClientWeb.value = "";
     elementos.filtroJava.value = "";
     elementos.filtroTipo.value = "";
+    elementos.filtroData.value = "";
 
     aplicarFiltros();
 }
@@ -848,6 +925,11 @@ elementos.filtroJava.addEventListener(
 );
 
 elementos.filtroTipo.addEventListener(
+    "change",
+    aplicarFiltros
+);
+
+elementos.filtroData.addEventListener(
     "change",
     aplicarFiltros
 );
