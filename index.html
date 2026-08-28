@@ -39,6 +39,10 @@ body {
     background: var(--background);
 }
 
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
 .header {
     display: flex;
     align-items: center;
@@ -67,6 +71,10 @@ body {
     font-size: 14px;
 }
 
+/* =========================================================
+   CARDS
+========================================================= */
+
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -92,6 +100,10 @@ body {
     font-size: 34px;
     font-weight: 700;
 }
+
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .table-container {
     padding: 20px;
@@ -119,17 +131,26 @@ body {
     font-size: 14px;
 }
 
+/* =========================================================
+   FILTROS
+========================================================= */
+
 .filters {
     display: grid;
-    grid-template-columns: minmax(220px, 2fr) repeat(5, minmax(130px, 1fr)) auto;
+    grid-template-columns:
+        minmax(220px, 2fr)
+        repeat(5, minmax(140px, 1fr))
+        auto;
     gap: 12px;
     margin-bottom: 20px;
+    align-items: end;
 }
 
 .filter-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    min-width: 0;
 }
 
 .filter-group label {
@@ -149,7 +170,6 @@ body {
     color: var(--text);
     font-family: inherit;
     font-size: 14px;
-    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .filter-control:focus {
@@ -157,19 +177,227 @@ body {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
 }
 
-.clear-button {
-    align-self: end;
+/* =========================================================
+   FILTRO MULTISSELEÇÃO ESTILO EXCEL
+========================================================= */
+
+.excel-filter {
+    position: relative;
+    width: 100%;
+}
+
+.excel-filter-button {
+    width: 100%;
     height: 42px;
-    padding: 0 18px;
-    border: 0;
+
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid #cbd5e1;
     border-radius: 10px;
+
+    outline: none;
+
+    background: #ffffff;
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.excel-filter-button:hover {
+    border-color: #94a3b8;
+}
+
+.excel-filter.open .excel-filter-button {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+}
+
+.filter-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.filter-arrow {
+    margin-left: 10px;
+    font-size: 16px;
+    transition: transform 0.2s;
+}
+
+.excel-filter.open .filter-arrow {
+    transform: rotate(180deg);
+}
+
+/* MENU */
+
+.excel-filter-menu {
+    display: none;
+
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+
+    width: 100%;
+    min-width: 260px;
+
+    padding: 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
+
+    z-index: 9999;
+}
+
+.excel-filter.open .excel-filter-menu {
+    display: block;
+}
+
+/* PESQUISA INTERNA */
+
+.excel-filter-search {
+    width: 100%;
+    height: 36px;
+
+    padding: 0 10px;
+    margin-bottom: 8px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.excel-filter-search:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12);
+}
+
+/* CHECKBOX */
+
+.excel-options {
+    max-height: 220px;
+    overflow-y: auto;
+
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.excel-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 6px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+    font-weight: 400 !important;
+}
+
+.excel-option:hover {
+    background: #f8fafc;
+}
+
+.excel-option input {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+    accent-color: var(--primary);
+
+    cursor: pointer;
+}
+
+.select-all-option {
+    font-weight: 600 !important;
+}
+
+/* AÇÕES */
+
+.excel-filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    padding-top: 10px;
+}
+
+.filter-cancel,
+.filter-apply {
+    height: 32px;
+    padding: 0 12px;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.filter-cancel {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+}
+
+.filter-apply {
+    border: 0;
     background: var(--primary);
     color: #ffffff;
+}
+
+.filter-apply:hover {
+    opacity: 0.92;
+}
+
+/* =========================================================
+   BOTÃO LIMPAR
+========================================================= */
+
+.clear-button {
+    align-self: end;
+
+    height: 42px;
+    padding: 0 18px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: var(--primary);
+    color: #ffffff;
+
     cursor: pointer;
+
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
-    transition: opacity 0.2s, transform 0.2s;
+
+    white-space: nowrap;
+
+    transition:
+        opacity 0.2s,
+        transform 0.2s;
 }
 
 .clear-button:hover {
@@ -180,6 +408,10 @@ body {
     transform: translateY(1px);
 }
 
+/* =========================================================
+   TABELA
+========================================================= */
+
 .table-scroll {
     overflow-x: auto;
 }
@@ -187,6 +419,7 @@ body {
 table {
     width: 100%;
     min-width: 980px;
+
     border-collapse: collapse;
     table-layout: fixed;
 }
@@ -198,17 +431,19 @@ thead {
 th,
 td {
     padding: 12px 6px;
+
     border-bottom: 1px solid var(--border);
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
     font-size: 14px;
 }
 
 th {
     color: #1e3a8a;
     font-weight: 600;
-    text-align: left;
 }
 
 tbody tr:hover {
@@ -251,42 +486,26 @@ td:nth-child(6) {
     text-align: center;
 }
 
-.loading,
-.empty,
-.error {
-    padding: 40px;
-    text-align: center;
-}
+/* =========================================================
+   RESPONSIVO
+========================================================= */
 
-.loading,
-.empty {
-    color: var(--muted);
-}
+@media (max-width: 1250px) {
 
-.error {
-    color: var(--danger);
-}
-
-.footer-note {
-    margin-top: 14px;
-    color: var(--muted);
-    font-size: 12px;
-    text-align: right;
-}
-
-@media (max-width: 1200px) {
     .filters {
-        grid-template-columns: repeat(3, minmax(180px, 1fr));
+        grid-template-columns:
+            repeat(3, minmax(180px, 1fr));
     }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 800px) {
+
     body {
         padding: 15px;
     }
 
     .title {
-        font-size: 26px;
+        font-size: 25px;
     }
 
     .filters {
@@ -297,107 +516,368 @@ td:nth-child(6) {
         width: 100%;
     }
 
-    .last-update {
-        width: 100%;
+    .excel-filter-menu {
+        min-width: 100%;
     }
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- =====================================================
+     CABEÇALHO
+===================================================== -->
+
 <header class="header">
+
     <div>
-        <div class="title">Dashboard Atualização RUB</div>
-        <div class="subtitle">Monitoramento dos clientes</div>
+        <h1 class="title">
+            Dashboard Atualização RUB
+        </h1>
+
+        <p class="subtitle">
+            Monitoramento dos clientes
+        </p>
     </div>
 
     <div class="last-update">
         Última atualização:
-        <strong id="lastUpdate">--</strong>
+        <strong>28/08/2026 09:16:24</strong>
     </div>
+
 </header>
 
+
+<!-- =====================================================
+     CARDS
+===================================================== -->
+
 <section class="cards">
-    <article class="card">
+
+    <div class="card">
         <h3>Total de clientes</h3>
-        <div class="value" id="totalClientes">0</div>
-    </article>
+        <div class="value" id="totalClientes">
+            21
+        </div>
+    </div>
 
-    <article class="card">
+    <div class="card">
         <h3>Clientes na versão 26 ou superior</h3>
-        <div class="value" id="clientesAcima26">0</div>
-    </article>
+        <div class="value" id="clientesAtualizados">
+            12
+        </div>
+    </div>
 
-    <article class="card">
+    <div class="card">
         <h3>Clientes abaixo da versão 26</h3>
-        <div class="value" id="clientesAbaixo26">0</div>
-    </article>
+        <div class="value" id="clientesDesatualizados">
+            9
+        </div>
+    </div>
+
 </section>
 
+
+<!-- =====================================================
+     TABELA / FILTROS
+===================================================== -->
+
 <section class="table-container">
+
     <div class="table-header">
-        <div class="chart-title">Filtro RUB</div>
-        <div class="result-count" id="contadorResultados">0 resultado(s)</div>
+
+        <h2 class="chart-title">
+            Filtro RUB
+        </h2>
+
+        <div
+            class="result-count"
+            id="resultCount"
+        >
+            21 resultado(s)
+        </div>
+
     </div>
+
+
+    <!-- =================================================
+         FILTROS
+    ================================================== -->
 
     <div class="filters">
+
+        <!-- CLIENTE -->
+
         <div class="filter-group">
-            <label for="filtroCliente">Cliente</label>
+
+            <label for="clienteFilter">
+                Cliente
+            </label>
+
             <input
-                id="filtroCliente"
+                type="text"
+                id="clienteFilter"
                 class="filter-control"
-                type="search"
                 placeholder="Pesquisar cliente..."
-                autocomplete="off"
             >
+
         </div>
 
-        <div class="filter-group">
-            <label for="filtroVersaoRub">Versão RUB</label>
-            <select id="filtroVersaoRub" class="filter-control">
-                <option value="">Todas</option>
-            </select>
-        </div>
+
+        <!-- VERSÃO RUB -->
 
         <div class="filter-group">
-            <label for="filtroClientWeb">Versão Client Web</label>
-            <select id="filtroClientWeb" class="filter-control">
-                <option value="">Todas</option>
-            </select>
+
+            <label>
+                Versão RUB
+            </label>
+
+            <div
+                class="excel-filter"
+                id="rubFilter"
+            >
+
+                <button
+                    type="button"
+                    class="excel-filter-button"
+                >
+
+                    <span class="filter-text">
+                        Todas
+                    </span>
+
+                    <span class="filter-arrow">
+                        ⌄
+                    </span>
+
+                </button>
+
+
+                <div class="excel-filter-menu">
+
+                    <input
+                        type="text"
+                        class="excel-filter-search"
+                        placeholder="Pesquisar versão..."
+                    >
+
+
+                    <label
+                        class="excel-option select-all-option"
+                    >
+
+                        <input
+                            type="checkbox"
+                            class="select-all"
+                            checked
+                        >
+
+                        <span>
+                            Selecionar todos
+                        </span>
+
+                    </label>
+
+
+                    <div
+                        class="excel-options"
+                        id="rubOptions"
+                    ></div>
+
+
+                    <div class="excel-filter-actions">
+
+                        <button
+                            type="button"
+                            class="filter-cancel"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-apply"
+                        >
+                            Aplicar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="filter-group">
-            <label for="filtroJava">Java</label>
-            <select id="filtroJava" class="filter-control">
-                <option value="">Todos</option>
-            </select>
-        </div>
+
+        <!-- VERSÃO CLIENT WEB -->
 
         <div class="filter-group">
-            <label for="filtroTipo">Tipo</label>
-            <select id="filtroTipo" class="filter-control">
-                <option value="">Todos</option>
-            </select>
+
+            <label>
+                Versão Client Web
+            </label>
+
+            <div
+                class="excel-filter"
+                id="webFilter"
+            >
+
+                <button
+                    type="button"
+                    class="excel-filter-button"
+                >
+
+                    <span class="filter-text">
+                        Todas
+                    </span>
+
+                    <span class="filter-arrow">
+                        ⌄
+                    </span>
+
+                </button>
+
+
+                <div class="excel-filter-menu">
+
+                    <input
+                        type="text"
+                        class="excel-filter-search"
+                        placeholder="Pesquisar versão..."
+                    >
+
+
+                    <label
+                        class="excel-option select-all-option"
+                    >
+
+                        <input
+                            type="checkbox"
+                            class="select-all"
+                            checked
+                        >
+
+                        <span>
+                            Selecionar todos
+                        </span>
+
+                    </label>
+
+
+                    <div
+                        class="excel-options"
+                        id="webOptions"
+                    ></div>
+
+
+                    <div class="excel-filter-actions">
+
+                        <button
+                            type="button"
+                            class="filter-cancel"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-apply"
+                        >
+                            Aplicar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
+
+        <!-- JAVA -->
+
         <div class="filter-group">
-            <label for="filtroData">Data</label>
-            <input
-                id="filtroData"
+
+            <label for="javaFilter">
+                Java
+            </label>
+
+            <select
+                id="javaFilter"
                 class="filter-control"
-                type="date"
             >
+                <option value="">
+                    Todos
+                </option>
+            </select>
+
         </div>
 
-        <button id="limparFiltros" class="clear-button" type="button">
+
+        <!-- TIPO -->
+
+        <div class="filter-group">
+
+            <label for="tipoFilter">
+                Tipo
+            </label>
+
+            <select
+                id="tipoFilter"
+                class="filter-control"
+            >
+                <option value="">
+                    Todos
+                </option>
+            </select>
+
+        </div>
+
+
+        <!-- DATA -->
+
+        <div class="filter-group">
+
+            <label for="dataFilter">
+                Data
+            </label>
+
+            <input
+                type="date"
+                id="dataFilter"
+                class="filter-control"
+            >
+
+        </div>
+
+
+        <!-- LIMPAR -->
+
+        <button
+            type="button"
+            id="clearFilters"
+            class="clear-button"
+        >
             Limpar filtros
         </button>
+
     </div>
 
+
+    <!-- =================================================
+         TABELA
+    ================================================== -->
+
     <div class="table-scroll">
-        <table>
+
+        <table id="rubTable">
+
             <thead>
+
                 <tr>
                     <th>Cliente</th>
                     <th>Versão RUB</th>
@@ -406,576 +886,1345 @@ td:nth-child(6) {
                     <th>Tipo</th>
                     <th>Data</th>
                 </tr>
+
             </thead>
 
-            <tbody id="tabelaClientes">
+
+            <tbody>
+
+                <!--
+                    ESTES DADOS SÃO APENAS EXEMPLOS.
+
+                    Você pode manter aqui exatamente
+                    os dados que já são gerados pelo
+                    seu sistema.
+                -->
+
                 <tr>
-                    <td colspan="6" class="loading">
-                        Carregando dados...
-                    </td>
+                    <td>Akki</td>
+                    <td>25.3.8</td>
+                    <td>WEB 2.3.34</td>
+                    <td>21</td>
+                    <td>Multicontexto</td>
+                    <td></td>
                 </tr>
+
+                <tr>
+                    <td>Amigão</td>
+                    <td>26</td>
+                    <td>WEB 2.0.10</td>
+                    <td>21</td>
+                    <td>Multicontexto</td>
+                    <td>02/08/2026</td>
+                </tr>
+
+                <tr>
+                    <td>Atakarejo</td>
+                    <td>26</td>
+                    <td>WEB 2.0.7</td>
+                    <td>21</td>
+                    <td>Multicontexto</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>Avenida</td>
+                    <td>26</td>
+                    <td>WEB 2.3.35</td>
+                    <td>21</td>
+                    <td>Multicontexto</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>Boa</td>
+                    <td>26</td>
+                    <td>WEB 2.3.35</td>
+                    <td>21</td>
+                    <td>Multicontexto</td>
+                    <td>21/07/2026</td>
+                </tr>
+
+                <tr>
+                    <td>Bonamix</td>
+                    <td>26</td>
+                    <td>WEB 2.0.10</td>
+                    <td>8</td>
+                    <td>Multicontexto</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>Cencosud Giga</td>
+                    <td>25.4.8</td>
+                    <td>WEB 2.3.34</td>
+                    <td>21</td>
+                    <td>Multicontexto</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>Cliente Teste 1</td>
+                    <td>25.4.10</td>
+                    <td>WEB 2.3.35</td>
+                    <td>21</td>
+                    <td>Centralizado</td>
+                    <td>10/08/2026</td>
+                </tr>
+
+                <tr>
+                    <td>Cliente Teste 2</td>
+                    <td>25.2.0</td>
+                    <td>WEB 2.0.7</td>
+                    <td>8</td>
+                    <td>Multicontexto</td>
+                    <td>15/08/2026</td>
+                </tr>
+
             </tbody>
+
         </table>
+
     </div>
 
-    <div class="footer-note">
-        Atualização automática a cada 30 segundos.
-    </div>
 </section>
 
+
 <script>
-"use strict";
 
-/* GOOGLE SHEETS */
+/* =========================================================
+   FUNÇÕES AUXILIARES
+========================================================= */
 
-const SHEET_ID =
-    "1iSwOxzOYCBXmseLHC3C9QHnsNZU6rps4BUX4_ecFu-U";
+function normalizeText(value) {
 
-const SHEET_NAME =
-    "dashboard";
-
-const API_URL =
-    `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
-
-/* DADOS */
-
-let todosClientes = [];
-let clientesFiltrados = [];
-
-/* ELEMENTOS */
-
-const elementos = {
-    tabela: document.getElementById("tabelaClientes"),
-    totalClientes: document.getElementById("totalClientes"),
-    clientesAcima26: document.getElementById("clientesAcima26"),
-    clientesAbaixo26: document.getElementById("clientesAbaixo26"),
-    contadorResultados: document.getElementById("contadorResultados"),
-    lastUpdate: document.getElementById("lastUpdate"),
-    filtroCliente: document.getElementById("filtroCliente"),
-    filtroVersaoRub: document.getElementById("filtroVersaoRub"),
-    filtroClientWeb: document.getElementById("filtroClientWeb"),
-    filtroJava: document.getElementById("filtroJava"),
-    filtroTipo: document.getElementById("filtroTipo"),
-    filtroData: document.getElementById("filtroData"),
-    limparFiltros: document.getElementById("limparFiltros")
-};
-
-/* UTILITÁRIOS */
-
-function normalizarTexto(valor) {
-    return String(valor ?? "")
+    return String(value || "")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .trim()
-        .toLowerCase();
-}
-
-function escaparHTML(valor) {
-    return String(valor ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-function normalizarNomeCampo(valor) {
-    return String(valor ?? "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9]/g, "")
-        .toLowerCase();
-}
-
-function obterCampo(cliente, nomes) {
-    const chaves = Object.keys(cliente);
-    const nomesNormalizados = nomes.map(normalizarNomeCampo);
-
-    for (const chave of chaves) {
-        if (!nomesNormalizados.includes(normalizarNomeCampo(chave))) {
-            continue;
-        }
-
-        const valor = cliente[chave];
-
-        if (
-            valor !== undefined &&
-            valor !== null &&
-            String(valor).trim() !== ""
-        ) {
-            return String(valor).trim();
-        }
-    }
-
-    return "";
-}
-
-function obterDadosCliente(cliente) {
-    return {
-        nome: obterCampo(cliente, [
-            "CLIENTE",
-            "Cliente",
-            "cliente"
-        ]),
-        versaoRub: obterCampo(cliente, [
-            "VERSAO_RUB",
-            "VERSÃO RUB",
-            "Versão RUB",
-            "Versao RUB"
-        ]),
-        versaoClientWeb: obterCampo(cliente, [
-            "Versão Client Web",
-            "VERSÃO CLIENT WEB",
-            "VERSAO_CLIENT_WEB",
-            "Versao Client Web"
-        ]),
-        java: obterCampo(cliente, [
-            "JAVA",
-            "Java",
-            "java"
-        ]),
-        tipo: obterCampo(cliente, [
-            "TIPO",
-            "Tipo",
-            "tipo"
-        ]),
-        data: obterCampo(cliente, [
-            "DATA",
-            "Data",
-            "data",
-            "Data Atualização",
-            "Data Atualizacao",
-            "Data da Atualização",
-            "Data da Atualizacao"
-        ])
-    };
+        .toLowerCase()
+        .trim();
 }
 
 
-function normalizarDataParaISO(valor) {
-    const texto = String(valor ?? "").trim();
+/*
+ * Converte:
+ *
+ * 28/08/2026
+ *
+ * para:
+ *
+ * 2026-08-28
+ */
 
-    if (!texto) {
+function convertDateToInputFormat(date) {
+
+    if (!date) {
         return "";
     }
 
-    let correspondencia = texto.match(
-        /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
-    );
+    const parts = date.split("/");
 
-    if (correspondencia) {
-        const [, dia, mes, ano] = correspondencia;
-
-        return `${ano}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+    if (parts.length !== 3) {
+        return date;
     }
 
-    correspondencia = texto.match(
-        /^(\d{4})-(\d{1,2})-(\d{1,2})/
-    );
-
-    if (correspondencia) {
-        const [, ano, mes, dia] = correspondencia;
-
-        return `${ano}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
-    }
-
-    return "";
-}
-
-function formatarData(valor) {
-    const iso = normalizarDataParaISO(valor);
-
-    if (!iso) {
-        return String(valor ?? "").trim();
-    }
-
-    const [ano, mes, dia] = iso.split("-");
-
-    return `${dia}/${mes}/${ano}`;
-}
-
-function obterNumeroVersao(valor) {
-    const correspondencia =
-        String(valor ?? "")
-            .replace(",", ".")
-            .match(/\d+(?:\.\d+)?/);
-
-    return correspondencia
-        ? Number.parseFloat(correspondencia[0])
-        : Number.NaN;
-}
-
-function atualizarHorario() {
-    const agora = new Date();
-
-    elementos.lastUpdate.textContent =
-        agora.toLocaleDateString("pt-BR") +
-        " " +
-        agora.toLocaleTimeString("pt-BR");
-}
-
-function ordenarValores(valores) {
-    return [...valores].sort((a, b) =>
-        String(a).localeCompare(
-            String(b),
-            "pt-BR",
-            {
-                numeric: true,
-                sensitivity: "base"
-            }
-        )
+    return (
+        parts[2] +
+        "-" +
+        parts[1].padStart(2, "0") +
+        "-" +
+        parts[0].padStart(2, "0")
     );
 }
 
-/* TABELA */
 
-function montarTabela(lista) {
-    const clientesValidos =
-        lista.filter(cliente =>
-            obterDadosCliente(cliente).nome !== ""
-        );
+/* =========================================================
+   CLASSE DO FILTRO MULTISSELEÇÃO
+========================================================= */
 
-    elementos.tabela.innerHTML = "";
+class ExcelMultiFilter {
 
-    if (clientesValidos.length === 0) {
-        elementos.tabela.innerHTML = `
-            <tr>
-                <td colspan="6" class="empty">
-                    Nenhum cliente encontrado para os filtros selecionados.
-                </td>
-            </tr>
-        `;
+    constructor(elementId, columnIndex) {
 
-        return;
-    }
+        this.container =
+            document.getElementById(elementId);
 
-    const linhas =
-        clientesValidos.map(cliente => {
-            const dados = obterDadosCliente(cliente);
+        this.columnIndex =
+            columnIndex;
 
-            return `
-                <tr>
-                    <td title="${escaparHTML(dados.nome)}">
-                        ${escaparHTML(dados.nome)}
-                    </td>
-                    <td title="${escaparHTML(dados.versaoRub)}">
-                        ${escaparHTML(dados.versaoRub)}
-                    </td>
-                    <td title="${escaparHTML(dados.versaoClientWeb)}">
-                        ${escaparHTML(dados.versaoClientWeb)}
-                    </td>
-                    <td title="${escaparHTML(dados.java)}">
-                        ${escaparHTML(dados.java)}
-                    </td>
-                    <td title="${escaparHTML(dados.tipo)}">
-                        ${escaparHTML(dados.tipo)}
-                    </td>
-                    <td title="${escaparHTML(formatarData(dados.data))}">
-                        ${escaparHTML(formatarData(dados.data))}
-                    </td>
-                </tr>
-            `;
-        }).join("");
-
-    elementos.tabela.innerHTML = linhas;
-}
-
-/* CARDS */
-
-function atualizarCards(lista) {
-    let totalClientes = 0;
-    let clientesAcima26 = 0;
-    let clientesAbaixo26 = 0;
-
-    lista.forEach(cliente => {
-        const dados = obterDadosCliente(cliente);
-
-        if (dados.nome === "") {
-            return;
-        }
-
-        totalClientes++;
-
-        const versaoNumero =
-            obterNumeroVersao(dados.versaoRub);
-
-        if (Number.isNaN(versaoNumero)) {
-            return;
-        }
-
-        if (versaoNumero >= 26) {
-            clientesAcima26++;
-        } else {
-            clientesAbaixo26++;
-        }
-    });
-
-    elementos.totalClientes.textContent =
-        totalClientes;
-
-    elementos.clientesAcima26.textContent =
-        clientesAcima26;
-
-    elementos.clientesAbaixo26.textContent =
-        clientesAbaixo26;
-
-    elementos.contadorResultados.textContent =
-        `${totalClientes} resultado(s)`;
-}
-
-/* FILTROS */
-
-function preencherSelect(select, valores, textoInicial) {
-    const valorSelecionado = select.value;
-
-    select.innerHTML =
-        `<option value="">${textoInicial}</option>`;
-
-    ordenarValores(valores).forEach(valor => {
-        const option =
-            document.createElement("option");
-
-        option.value = valor;
-        option.textContent = valor;
-
-        select.appendChild(option);
-    });
-
-    if (
-        valorSelecionado &&
-        [...select.options].some(
-            option => option.value === valorSelecionado
-        )
-    ) {
-        select.value = valorSelecionado;
-    }
-}
-
-function preencherFiltros() {
-    const versoesRub = new Set();
-    const versoesClientWeb = new Set();
-    const versoesJava = new Set();
-    const tipos = new Set();
-
-    todosClientes.forEach(cliente => {
-        const dados = obterDadosCliente(cliente);
-
-        if (dados.nome === "") {
-            return;
-        }
-
-        if (dados.versaoRub) {
-            versoesRub.add(dados.versaoRub);
-        }
-
-        if (dados.versaoClientWeb) {
-            versoesClientWeb.add(dados.versaoClientWeb);
-        }
-
-        if (dados.java) {
-            versoesJava.add(dados.java);
-        }
-
-        if (dados.tipo) {
-            tipos.add(dados.tipo);
-        }
-    });
-
-    preencherSelect(
-        elementos.filtroVersaoRub,
-        versoesRub,
-        "Todas"
-    );
-
-    preencherSelect(
-        elementos.filtroClientWeb,
-        versoesClientWeb,
-        "Todas"
-    );
-
-    preencherSelect(
-        elementos.filtroJava,
-        versoesJava,
-        "Todos"
-    );
-
-    preencherSelect(
-        elementos.filtroTipo,
-        tipos,
-        "Todos"
-    );
-}
-
-function aplicarFiltros() {
-    const buscaCliente =
-        normalizarTexto(elementos.filtroCliente.value);
-
-    const versaoRub =
-        elementos.filtroVersaoRub.value;
-
-    const versaoClientWeb =
-        elementos.filtroClientWeb.value;
-
-    const java =
-        elementos.filtroJava.value;
-
-    const tipo =
-        elementos.filtroTipo.value;
-
-    const data =
-        elementos.filtroData.value;
-
-    clientesFiltrados =
-        todosClientes.filter(cliente => {
-            const dados = obterDadosCliente(cliente);
-
-            if (dados.nome === "") {
-                return false;
-            }
-
-            const correspondeCliente =
-                !buscaCliente ||
-                normalizarTexto(dados.nome)
-                    .includes(buscaCliente);
-
-            const correspondeVersaoRub =
-                !versaoRub ||
-                dados.versaoRub === versaoRub;
-
-            const correspondeClientWeb =
-                !versaoClientWeb ||
-                dados.versaoClientWeb === versaoClientWeb;
-
-            const correspondeJava =
-                !java ||
-                dados.java === java;
-
-            const correspondeTipo =
-                !tipo ||
-                dados.tipo === tipo;
-
-            const correspondeData =
-                !data ||
-                normalizarDataParaISO(dados.data) === data;
-
-            return (
-                correspondeCliente &&
-                correspondeVersaoRub &&
-                correspondeClientWeb &&
-                correspondeJava &&
-                correspondeTipo &&
-                correspondeData
+        this.button =
+            this.container.querySelector(
+                ".excel-filter-button"
             );
+
+        this.text =
+            this.container.querySelector(
+                ".filter-text"
+            );
+
+        this.menu =
+            this.container.querySelector(
+                ".excel-filter-menu"
+            );
+
+        this.search =
+            this.container.querySelector(
+                ".excel-filter-search"
+            );
+
+        this.selectAll =
+            this.container.querySelector(
+                ".select-all"
+            );
+
+        this.optionsContainer =
+            this.container.querySelector(
+                ".excel-options"
+            );
+
+        this.applyButton =
+            this.container.querySelector(
+                ".filter-apply"
+            );
+
+        this.cancelButton =
+            this.container.querySelector(
+                ".filter-cancel"
+            );
+
+        this.selectedValues = [];
+
+        this.createOptions();
+
+        this.bindEvents();
+    }
+
+
+    /* =====================================================
+       PEGA VALORES DA TABELA
+    ===================================================== */
+
+    getTableValues() {
+
+        const rows =
+            document.querySelectorAll(
+                "#rubTable tbody tr"
+            );
+
+        const values = [];
+
+        rows.forEach(row => {
+
+            const cells =
+                row.querySelectorAll("td");
+
+            if (!cells[this.columnIndex]) {
+                return;
+            }
+
+            const value =
+                cells[this.columnIndex]
+                    .textContent
+                    .trim();
+
+            if (
+                value &&
+                !values.includes(value)
+            ) {
+                values.push(value);
+            }
+
         });
 
-    montarTabela(clientesFiltrados);
-    atualizarCards(clientesFiltrados);
-}
 
-function limparFiltros() {
-    elementos.filtroCliente.value = "";
-    elementos.filtroVersaoRub.value = "";
-    elementos.filtroClientWeb.value = "";
-    elementos.filtroJava.value = "";
-    elementos.filtroTipo.value = "";
-    elementos.filtroData.value = "";
+        return values.sort(
+            (a, b) =>
+                a.localeCompare(
+                    b,
+                    undefined,
+                    {
+                        numeric: true,
+                        sensitivity: "base"
+                    }
+                )
+        );
+    }
 
-    aplicarFiltros();
-}
 
-/* CARREGAMENTO */
+    /* =====================================================
+       CRIA CHECKBOXES
+    ===================================================== */
 
-async function carregarPlanilha() {
-    try {
-        const response =
-            await fetch(API_URL, {
-                cache: "no-store"
-            });
+    createOptions() {
 
-        if (!response.ok) {
-            throw new Error(
-                `Erro HTTP: ${response.status}`
+        const values =
+            this.getTableValues();
+
+        this.optionsContainer.innerHTML = "";
+
+
+        values.forEach(value => {
+
+            const label =
+                document.createElement("label");
+
+            label.className =
+                "excel-option";
+
+
+            const checkbox =
+                document.createElement("input");
+
+            checkbox.type =
+                "checkbox";
+
+            checkbox.value =
+                value;
+
+            checkbox.checked =
+                true;
+
+
+            const span =
+                document.createElement("span");
+
+            span.textContent =
+                value;
+
+
+            label.appendChild(
+                checkbox
             );
-        }
 
-        const dadosRecebidos =
-            await response.json();
-
-        if (!Array.isArray(dadosRecebidos)) {
-            throw new Error(
-                "A resposta da planilha não está no formato esperado."
+            label.appendChild(
+                span
             );
-        }
 
-        todosClientes = dadosRecebidos;
 
-        preencherFiltros();
-        aplicarFiltros();
-        atualizarHorario();
-    } catch (error) {
-        console.error(
-            "Erro ao carregar planilha:",
-            error
+            this.optionsContainer
+                .appendChild(label);
+
+        });
+
+
+        this.selectedValues =
+            [...values];
+    }
+
+
+    /* =====================================================
+       EVENTOS
+    ===================================================== */
+
+    bindEvents() {
+
+        /* ABRIR FILTRO */
+
+        this.button.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+
+                document
+                    .querySelectorAll(
+                        ".excel-filter.open"
+                    )
+                    .forEach(filter => {
+
+                        if (
+                            filter !==
+                            this.container
+                        ) {
+                            filter.classList
+                                .remove("open");
+                        }
+
+                    });
+
+
+                this.container
+                    .classList
+                    .toggle("open");
+
+
+                if (
+                    this.container
+                        .classList
+                        .contains("open")
+                ) {
+
+                    setTimeout(
+                        () => {
+                            this.search.focus();
+                        },
+                        50
+                    );
+
+                }
+
+            }
         );
 
-        elementos.tabela.innerHTML = `
-            <tr>
-                <td colspan="6" class="error">
-                    Erro ao carregar os dados da planilha.
-                </td>
-            </tr>
-        `;
 
-        elementos.contadorResultados.textContent =
-            "Erro no carregamento";
+        /* NÃO FECHAR AO CLICAR DENTRO */
+
+        this.menu.addEventListener(
+            "click",
+            event => {
+                event.stopPropagation();
+            }
+        );
+
+
+        /* =================================================
+           PESQUISA DENTRO DO FILTRO
+        ================================================= */
+
+        this.search.addEventListener(
+            "input",
+            () => {
+
+                const search =
+                    normalizeText(
+                        this.search.value
+                    );
+
+
+                const options =
+                    this.optionsContainer
+                        .querySelectorAll(
+                            ".excel-option"
+                        );
+
+
+                options.forEach(
+                    option => {
+
+                        const text =
+                            normalizeText(
+                                option.textContent
+                            );
+
+
+                        if (
+                            text.includes(search)
+                        ) {
+
+                            option.style.display =
+                                "flex";
+
+                        } else {
+
+                            option.style.display =
+                                "none";
+
+                        }
+
+                    }
+                );
+
+
+                this.updateSelectAllState();
+
+            }
+        );
+
+
+        /* =================================================
+           SELECIONAR TODOS
+        ================================================= */
+
+        this.selectAll.addEventListener(
+            "change",
+            () => {
+
+                const checkboxes =
+                    this.optionsContainer
+                        .querySelectorAll(
+                            'input[type="checkbox"]'
+                        );
+
+
+                checkboxes.forEach(
+                    checkbox => {
+
+                        const option =
+                            checkbox.closest(
+                                ".excel-option"
+                            );
+
+
+                        /*
+                         * Se existir pesquisa,
+                         * altera somente os itens
+                         * visíveis.
+                         */
+
+                        if (
+                            option.style.display
+                            !== "none"
+                        ) {
+
+                            checkbox.checked =
+                                this.selectAll.checked;
+
+                        }
+
+                    }
+                );
+
+
+                this.updateSelectAllState();
+
+            }
+        );
+
+
+        /* =================================================
+           CHECKBOX INDIVIDUAL
+        ================================================= */
+
+        this.optionsContainer
+            .addEventListener(
+                "change",
+                () => {
+
+                    this.updateSelectAllState();
+
+                }
+            );
+
+
+        /* =================================================
+           APLICAR
+        ================================================= */
+
+        this.applyButton
+            .addEventListener(
+                "click",
+                () => {
+
+                    this.saveSelection();
+
+                    this.container
+                        .classList
+                        .remove("open");
+
+                    applyAllFilters();
+
+                }
+            );
+
+
+        /* =================================================
+           CANCELAR
+        ================================================= */
+
+        this.cancelButton
+            .addEventListener(
+                "click",
+                () => {
+
+                    this.restoreSelection();
+
+                    this.container
+                        .classList
+                        .remove("open");
+
+                }
+            );
+
     }
+
+
+    /* =====================================================
+       ESTADO DO SELECIONAR TODOS
+    ===================================================== */
+
+    updateSelectAllState() {
+
+        const checkboxes =
+            [
+                ...this.optionsContainer
+                    .querySelectorAll(
+                        'input[type="checkbox"]'
+                    )
+            ];
+
+
+        const visible =
+            checkboxes.filter(
+                checkbox => {
+
+                    return (
+                        checkbox
+                            .closest(
+                                ".excel-option"
+                            )
+                            .style
+                            .display
+                        !== "none"
+                    );
+
+                }
+            );
+
+
+        const checked =
+            visible.filter(
+                checkbox =>
+                    checkbox.checked
+            );
+
+
+        this.selectAll.checked =
+            visible.length > 0 &&
+            checked.length ===
+                visible.length;
+
+
+        this.selectAll.indeterminate =
+            checked.length > 0 &&
+            checked.length <
+                visible.length;
+    }
+
+
+    /* =====================================================
+       SALVA SELEÇÃO
+    ===================================================== */
+
+    saveSelection() {
+
+        const checkboxes =
+            [
+                ...this.optionsContainer
+                    .querySelectorAll(
+                        'input[type="checkbox"]'
+                    )
+            ];
+
+
+        this.selectedValues =
+            checkboxes
+                .filter(
+                    checkbox =>
+                        checkbox.checked
+                )
+                .map(
+                    checkbox =>
+                        checkbox.value
+                );
+
+
+        this.updateButtonText();
+    }
+
+
+    /* =====================================================
+       RESTAURA SELEÇÃO
+    ===================================================== */
+
+    restoreSelection() {
+
+        const checkboxes =
+            this.optionsContainer
+                .querySelectorAll(
+                    'input[type="checkbox"]'
+                );
+
+
+        checkboxes.forEach(
+            checkbox => {
+
+                checkbox.checked =
+                    this.selectedValues
+                        .includes(
+                            checkbox.value
+                        );
+
+            }
+        );
+
+
+        this.updateSelectAllState();
+    }
+
+
+    /* =====================================================
+       TEXTO DO BOTÃO
+    ===================================================== */
+
+    updateButtonText() {
+
+        const total =
+            this.optionsContainer
+                .querySelectorAll(
+                    'input[type="checkbox"]'
+                )
+                .length;
+
+
+        const selected =
+            this.selectedValues.length;
+
+
+        if (
+            selected === total
+        ) {
+
+            this.text.textContent =
+                "Todas";
+
+        }
+
+        else if (
+            selected === 0
+        ) {
+
+            this.text.textContent =
+                "Nenhuma";
+
+        }
+
+        else if (
+            selected === 1
+        ) {
+
+            this.text.textContent =
+                this.selectedValues[0];
+
+        }
+
+        else {
+
+            this.text.textContent =
+                selected +
+                " selecionadas";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       VERIFICA SE VALOR PASSA NO FILTRO
+    ===================================================== */
+
+    matches(value) {
+
+        const total =
+            this.optionsContainer
+                .querySelectorAll(
+                    'input[type="checkbox"]'
+                )
+                .length;
+
+
+        /*
+         * Se tudo estiver selecionado,
+         * não existe filtro.
+         */
+
+        if (
+            this.selectedValues.length
+            === total
+        ) {
+
+            return true;
+
+        }
+
+
+        return this.selectedValues
+            .includes(value);
+    }
+
+
+    /* =====================================================
+       LIMPAR FILTRO
+    ===================================================== */
+
+    clear() {
+
+        const checkboxes =
+            [
+                ...this.optionsContainer
+                    .querySelectorAll(
+                        'input[type="checkbox"]'
+                    )
+            ];
+
+
+        checkboxes.forEach(
+            checkbox => {
+
+                checkbox.checked =
+                    true;
+
+            }
+        );
+
+
+        this.selectAll.checked =
+            true;
+
+        this.selectAll.indeterminate =
+            false;
+
+
+        this.search.value =
+            "";
+
+
+        this.optionsContainer
+            .querySelectorAll(
+                ".excel-option"
+            )
+            .forEach(
+                option => {
+
+                    option.style.display =
+                        "flex";
+
+                }
+            );
+
+
+        this.selectedValues =
+            checkboxes.map(
+                checkbox =>
+                    checkbox.value
+            );
+
+
+        this.text.textContent =
+            "Todas";
+    }
+
 }
 
-/* EVENTOS */
 
-elementos.filtroCliente.addEventListener(
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const clienteFilter =
+    document.getElementById(
+        "clienteFilter"
+    );
+
+const javaFilter =
+    document.getElementById(
+        "javaFilter"
+    );
+
+const tipoFilter =
+    document.getElementById(
+        "tipoFilter"
+    );
+
+const dataFilter =
+    document.getElementById(
+        "dataFilter"
+    );
+
+const clearFilters =
+    document.getElementById(
+        "clearFilters"
+    );
+
+const resultCount =
+    document.getElementById(
+        "resultCount"
+    );
+
+
+/* =========================================================
+   CRIA MULTIFILTROS
+========================================================= */
+
+const rubFilter =
+    new ExcelMultiFilter(
+        "rubFilter",
+        1
+    );
+
+
+const webFilter =
+    new ExcelMultiFilter(
+        "webFilter",
+        2
+    );
+
+
+/* =========================================================
+   CARREGA JAVA E TIPO AUTOMATICAMENTE
+========================================================= */
+
+function populateNormalSelect(
+    selectElement,
+    columnIndex
+) {
+
+    const rows =
+        document.querySelectorAll(
+            "#rubTable tbody tr"
+        );
+
+    const values =
+        new Set();
+
+
+    rows.forEach(
+        row => {
+
+            const cells =
+                row.querySelectorAll("td");
+
+            if (
+                cells[columnIndex]
+            ) {
+
+                const value =
+                    cells[columnIndex]
+                        .textContent
+                        .trim();
+
+
+                if (value) {
+                    values.add(value);
+                }
+
+            }
+
+        }
+    );
+
+
+    const sortedValues =
+        [...values].sort(
+            (a, b) =>
+                a.localeCompare(
+                    b,
+                    undefined,
+                    {
+                        numeric: true
+                    }
+                )
+        );
+
+
+    sortedValues.forEach(
+        value => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                value;
+
+            option.textContent =
+                value;
+
+            selectElement
+                .appendChild(option);
+
+        }
+    );
+
+}
+
+
+populateNormalSelect(
+    javaFilter,
+    3
+);
+
+populateNormalSelect(
+    tipoFilter,
+    4
+);
+
+
+/* =========================================================
+   FUNÇÃO PRINCIPAL DE FILTRAGEM
+========================================================= */
+
+function applyAllFilters() {
+
+    const rows =
+        document.querySelectorAll(
+            "#rubTable tbody tr"
+        );
+
+
+    const cliente =
+        normalizeText(
+            clienteFilter.value
+        );
+
+
+    const java =
+        javaFilter.value;
+
+
+    const tipo =
+        tipoFilter.value;
+
+
+    const data =
+        dataFilter.value;
+
+
+    let visibleRows = 0;
+
+
+    rows.forEach(
+        row => {
+
+            const cells =
+                row.querySelectorAll("td");
+
+
+            if (
+                cells.length < 6
+            ) {
+                return;
+            }
+
+
+            const clienteValue =
+                cells[0]
+                    .textContent
+                    .trim();
+
+
+            const rubValue =
+                cells[1]
+                    .textContent
+                    .trim();
+
+
+            const webValue =
+                cells[2]
+                    .textContent
+                    .trim();
+
+
+            const javaValue =
+                cells[3]
+                    .textContent
+                    .trim();
+
+
+            const tipoValue =
+                cells[4]
+                    .textContent
+                    .trim();
+
+
+            const dataValue =
+                cells[5]
+                    .textContent
+                    .trim();
+
+
+            /* CLIENTE */
+
+            const clienteMatch =
+                !cliente ||
+                normalizeText(
+                    clienteValue
+                ).includes(cliente);
+
+
+            /* VERSÃO RUB */
+
+            const rubMatch =
+                rubFilter.matches(
+                    rubValue
+                );
+
+
+            /* CLIENT WEB */
+
+            const webMatch =
+                webFilter.matches(
+                    webValue
+                );
+
+
+            /* JAVA */
+
+            const javaMatch =
+                !java ||
+                javaValue === java;
+
+
+            /* TIPO */
+
+            const tipoMatch =
+                !tipo ||
+                tipoValue === tipo;
+
+
+            /* DATA */
+
+            const dataMatch =
+                !data ||
+                convertDateToInputFormat(
+                    dataValue
+                ) === data;
+
+
+            /* RESULTADO FINAL */
+
+            const show =
+                clienteMatch &&
+                rubMatch &&
+                webMatch &&
+                javaMatch &&
+                tipoMatch &&
+                dataMatch;
+
+
+            if (show) {
+
+                row.style.display =
+                    "";
+
+                visibleRows++;
+
+            } else {
+
+                row.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+    resultCount.textContent =
+        visibleRows +
+        " resultado(s)";
+
+}
+
+
+/* =========================================================
+   EVENTOS DOS FILTROS NORMAIS
+========================================================= */
+
+clienteFilter.addEventListener(
     "input",
-    aplicarFiltros
+    applyAllFilters
 );
 
-elementos.filtroVersaoRub.addEventListener(
+
+javaFilter.addEventListener(
     "change",
-    aplicarFiltros
+    applyAllFilters
 );
 
-elementos.filtroClientWeb.addEventListener(
+
+tipoFilter.addEventListener(
     "change",
-    aplicarFiltros
+    applyAllFilters
 );
 
-elementos.filtroJava.addEventListener(
+
+dataFilter.addEventListener(
     "change",
-    aplicarFiltros
+    applyAllFilters
 );
 
-elementos.filtroTipo.addEventListener(
-    "change",
-    aplicarFiltros
-);
 
-elementos.filtroData.addEventListener(
-    "change",
-    aplicarFiltros
-);
+/* =========================================================
+   LIMPAR TODOS OS FILTROS
+========================================================= */
 
-elementos.limparFiltros.addEventListener(
+clearFilters.addEventListener(
     "click",
-    limparFiltros
+    () => {
+
+        clienteFilter.value =
+            "";
+
+        javaFilter.value =
+            "";
+
+        tipoFilter.value =
+            "";
+
+        dataFilter.value =
+            "";
+
+
+        rubFilter.clear();
+
+        webFilter.clear();
+
+
+        applyAllFilters();
+
+    }
 );
 
-/* INICIAR */
 
-carregarPlanilha();
+/* =========================================================
+   FECHA DROPDOWN CLICANDO FORA
+========================================================= */
 
-setInterval(
-    carregarPlanilha,
-    30000
+document.addEventListener(
+    "click",
+    () => {
+
+        document
+            .querySelectorAll(
+                ".excel-filter.open"
+            )
+            .forEach(
+                filter => {
+
+                    filter.classList
+                        .remove("open");
+
+                }
+            );
+
+    }
 );
+
+
+/* =========================================================
+   ATUALIZA CARDS AUTOMATICAMENTE
+========================================================= */
+
+function getMajorVersion(version) {
+
+    if (!version) {
+        return 0;
+    }
+
+    const match =
+        String(version)
+            .match(/\d+/);
+
+    if (!match) {
+        return 0;
+    }
+
+    return parseInt(
+        match[0],
+        10
+    );
+}
+
+
+function updateCards() {
+
+    const rows =
+        document.querySelectorAll(
+            "#rubTable tbody tr"
+        );
+
+
+    let total =
+        rows.length;
+
+    let atualizados =
+        0;
+
+    let desatualizados =
+        0;
+
+
+    rows.forEach(
+        row => {
+
+            const cells =
+                row.querySelectorAll("td");
+
+
+            if (
+                cells.length < 2
+            ) {
+                return;
+            }
+
+
+            const version =
+                cells[1]
+                    .textContent
+                    .trim();
+
+
+            const majorVersion =
+                getMajorVersion(
+                    version
+                );
+
+
+            if (
+                majorVersion >= 26
+            ) {
+
+                atualizados++;
+
+            } else {
+
+                desatualizados++;
+
+            }
+
+        }
+    );
+
+
+    document
+        .getElementById(
+            "totalClientes"
+        )
+        .textContent =
+            total;
+
+
+    document
+        .getElementById(
+            "clientesAtualizados"
+        )
+        .textContent =
+            atualizados;
+
+
+    document
+        .getElementById(
+            "clientesDesatualizados"
+        )
+        .textContent =
+            desatualizados;
+
+
+    resultCount.textContent =
+        total +
+        " resultado(s)";
+
+}
+
+
+/* =========================================================
+   INICIALIZA
+========================================================= */
+
+updateCards();
+
 </script>
 
 </body>
