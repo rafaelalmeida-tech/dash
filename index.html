@@ -157,6 +157,150 @@ body {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
 }
 
+/* =========================================================
+   FILTROS MULTISSELECAO ESTILO EXCEL
+========================================================= */
+
+.multi-filter {
+    position: relative;
+    width: 100%;
+}
+
+.multi-filter-button {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    text-align: left;
+}
+
+.multi-filter-button:focus,
+.multi-filter.open .multi-filter-button {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+    outline: none;
+}
+
+.multi-filter-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.multi-filter-arrow {
+    flex: 0 0 auto;
+    font-size: 12px;
+}
+
+.multi-filter-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1000;
+    width: 290px;
+    max-width: 90vw;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
+}
+
+.multi-filter.open .multi-filter-menu {
+    display: block;
+}
+
+.multi-filter-search {
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    margin-bottom: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.multi-filter-search:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12);
+}
+
+.multi-filter-option {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 6px;
+    color: var(--text) !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    cursor: pointer;
+}
+
+.multi-filter-option:hover {
+    background: #f8fafc;
+}
+
+.multi-filter-option input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+}
+
+.multi-filter-select-all {
+    font-weight: 600 !important;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+}
+
+.multi-filter-options {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.multi-filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.multi-filter-cancel,
+.multi-filter-apply {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.multi-filter-cancel {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #475569;
+}
+
+.multi-filter-apply {
+    border: 0;
+    background: var(--primary);
+    color: #fff;
+}
+
 .clear-button {
     align-self: end;
     height: 42px;
@@ -354,17 +498,47 @@ td:nth-child(6) {
         </div>
 
         <div class="filter-group">
-            <label for="filtroVersaoRub">Versão RUB</label>
-            <select id="filtroVersaoRub" class="filter-control">
-                <option value="">Todas</option>
-            </select>
+            <label>Versão RUB</label>
+            <div class="multi-filter" id="filtroVersaoRub">
+                <button type="button" class="multi-filter-button">
+                    <span class="multi-filter-label">Todas</span>
+                    <span class="multi-filter-arrow">▼</span>
+                </button>
+                <div class="multi-filter-menu">
+                    <input type="search" class="multi-filter-search" placeholder="Pesquisar versão..." autocomplete="off">
+                    <label class="multi-filter-option multi-filter-select-all">
+                        <input type="checkbox" class="multi-filter-all" checked>
+                        <span>Selecionar todos</span>
+                    </label>
+                    <div class="multi-filter-options"></div>
+                    <div class="multi-filter-actions">
+                        <button type="button" class="multi-filter-cancel">Cancelar</button>
+                        <button type="button" class="multi-filter-apply">Aplicar</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="filter-group">
-            <label for="filtroClientWeb">Versão Client Web</label>
-            <select id="filtroClientWeb" class="filter-control">
-                <option value="">Todas</option>
-            </select>
+            <label>Versão Client Web</label>
+            <div class="multi-filter" id="filtroClientWeb">
+                <button type="button" class="multi-filter-button">
+                    <span class="multi-filter-label">Todas</span>
+                    <span class="multi-filter-arrow">▼</span>
+                </button>
+                <div class="multi-filter-menu">
+                    <input type="search" class="multi-filter-search" placeholder="Pesquisar versão..." autocomplete="off">
+                    <label class="multi-filter-option multi-filter-select-all">
+                        <input type="checkbox" class="multi-filter-all" checked>
+                        <span>Selecionar todos</span>
+                    </label>
+                    <div class="multi-filter-options"></div>
+                    <div class="multi-filter-actions">
+                        <button type="button" class="multi-filter-cancel">Cancelar</button>
+                        <button type="button" class="multi-filter-apply">Aplicar</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="filter-group">
@@ -627,6 +801,175 @@ function ordenarValores(valores) {
     );
 }
 
+
+class FiltroMultiplo {
+    constructor(elemento, aoAplicar) {
+        this.elemento = elemento;
+        this.aoAplicar = aoAplicar;
+        this.botao = elemento.querySelector(".multi-filter-button");
+        this.rotulo = elemento.querySelector(".multi-filter-label");
+        this.menu = elemento.querySelector(".multi-filter-menu");
+        this.busca = elemento.querySelector(".multi-filter-search");
+        this.selecionarTodos = elemento.querySelector(".multi-filter-all");
+        this.opcoes = elemento.querySelector(".multi-filter-options");
+        this.botaoCancelar = elemento.querySelector(".multi-filter-cancel");
+        this.botaoAplicar = elemento.querySelector(".multi-filter-apply");
+        this.valores = [];
+        this.selecionados = new Set();
+        this.inicializado = false;
+        this.vincularEventos();
+    }
+
+    vincularEventos() {
+        this.botao.addEventListener("click", evento => {
+            evento.stopPropagation();
+            document.querySelectorAll(".multi-filter.open").forEach(item => {
+                if (item !== this.elemento) item.classList.remove("open");
+            });
+            this.restaurarSelecaoVisual();
+            this.elemento.classList.toggle("open");
+            if (this.elemento.classList.contains("open")) {
+                this.busca.value = "";
+                this.filtrarOpcoesVisiveis();
+                setTimeout(() => this.busca.focus(), 0);
+            }
+        });
+
+        this.menu.addEventListener("click", evento => evento.stopPropagation());
+        this.busca.addEventListener("input", () => this.filtrarOpcoesVisiveis());
+
+        this.selecionarTodos.addEventListener("change", () => {
+            this.opcoes.querySelectorAll('.multi-filter-option').forEach(label => {
+                if (label.style.display !== "none") {
+                    label.querySelector('input[type="checkbox"]').checked = this.selecionarTodos.checked;
+                }
+            });
+            this.atualizarEstadoSelecionarTodos();
+        });
+
+        this.opcoes.addEventListener("change", () => this.atualizarEstadoSelecionarTodos());
+
+        this.botaoAplicar.addEventListener("click", () => {
+            this.selecionados = new Set(
+                [...this.opcoes.querySelectorAll('input[type="checkbox"]')]
+                    .filter(item => item.checked)
+                    .map(item => item.value)
+            );
+            this.atualizarRotulo();
+            this.elemento.classList.remove("open");
+            this.aoAplicar();
+        });
+
+        this.botaoCancelar.addEventListener("click", () => {
+            this.restaurarSelecaoVisual();
+            this.elemento.classList.remove("open");
+        });
+    }
+
+    definirValores(valores) {
+        const valoresAnteriores = [...this.valores];
+        const selecaoAnterior = new Set(this.selecionados);
+        const todosEstavamSelecionados =
+            this.inicializado &&
+            valoresAnteriores.length > 0 &&
+            selecaoAnterior.size === valoresAnteriores.length;
+
+        this.valores = ordenarValores(valores);
+        this.opcoes.innerHTML = "";
+
+        this.valores.forEach(valor => {
+            const label = document.createElement("label");
+            label.className = "multi-filter-option";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = valor;
+
+            const span = document.createElement("span");
+            span.textContent = valor;
+
+            label.appendChild(checkbox);
+            label.appendChild(span);
+            this.opcoes.appendChild(label);
+        });
+
+        if (!this.inicializado || todosEstavamSelecionados) {
+            this.selecionados = new Set(this.valores);
+        } else {
+            this.selecionados = new Set(
+                this.valores.filter(v => selecaoAnterior.has(v))
+            );
+        }
+
+        this.inicializado = true;
+        this.restaurarSelecaoVisual();
+        this.atualizarRotulo();
+    }
+
+    restaurarSelecaoVisual() {
+        this.opcoes.querySelectorAll('input[type="checkbox"]').forEach(item => {
+            item.checked = this.selecionados.has(item.value);
+        });
+        this.atualizarEstadoSelecionarTodos();
+    }
+
+    filtrarOpcoesVisiveis() {
+        const busca = normalizarTexto(this.busca.value);
+        this.opcoes.querySelectorAll(".multi-filter-option").forEach(label => {
+            label.style.display = normalizarTexto(label.textContent).includes(busca) ? "flex" : "none";
+        });
+        this.atualizarEstadoSelecionarTodos();
+    }
+
+    atualizarEstadoSelecionarTodos() {
+        const visiveis = [...this.opcoes.querySelectorAll(".multi-filter-option")]
+            .filter(label => label.style.display !== "none")
+            .map(label => label.querySelector('input[type="checkbox"]'));
+        const marcados = visiveis.filter(item => item.checked);
+        this.selecionarTodos.checked = visiveis.length > 0 && marcados.length === visiveis.length;
+        this.selecionarTodos.indeterminate = marcados.length > 0 && marcados.length < visiveis.length;
+    }
+
+    atualizarRotulo() {
+        if (this.valores.length === 0 || this.selecionados.size === this.valores.length) {
+            this.rotulo.textContent = "Todas";
+        } else if (this.selecionados.size === 0) {
+            this.rotulo.textContent = "Nenhuma";
+        } else if (this.selecionados.size === 1) {
+            this.rotulo.textContent = [...this.selecionados][0];
+        } else {
+            this.rotulo.textContent = `${this.selecionados.size} selecionadas`;
+        }
+    }
+
+    aceita(valor) {
+        if (this.valores.length === 0 || this.selecionados.size === this.valores.length) return true;
+        return this.selecionados.has(valor);
+    }
+
+    limpar() {
+        this.selecionados = new Set(this.valores);
+        this.busca.value = "";
+        this.opcoes.querySelectorAll(".multi-filter-option").forEach(label => label.style.display = "flex");
+        this.restaurarSelecaoVisual();
+        this.atualizarRotulo();
+    }
+}
+
+const filtroMultiploRub = new FiltroMultiplo(
+    elementos.filtroVersaoRub,
+    aplicarFiltros
+);
+
+const filtroMultiploClientWeb = new FiltroMultiplo(
+    elementos.filtroClientWeb,
+    aplicarFiltros
+);
+
+document.addEventListener("click", () => {
+    document.querySelectorAll(".multi-filter.open").forEach(item => item.classList.remove("open"));
+});
+
 /* TABELA */
 
 function montarTabela(lista) {
@@ -781,17 +1124,8 @@ function preencherFiltros() {
         }
     });
 
-    preencherSelect(
-        elementos.filtroVersaoRub,
-        versoesRub,
-        "Todas"
-    );
-
-    preencherSelect(
-        elementos.filtroClientWeb,
-        versoesClientWeb,
-        "Todas"
-    );
+    filtroMultiploRub.definirValores(versoesRub);
+    filtroMultiploClientWeb.definirValores(versoesClientWeb);
 
     preencherSelect(
         elementos.filtroJava,
@@ -809,12 +1143,6 @@ function preencherFiltros() {
 function aplicarFiltros() {
     const buscaCliente =
         normalizarTexto(elementos.filtroCliente.value);
-
-    const versaoRub =
-        elementos.filtroVersaoRub.value;
-
-    const versaoClientWeb =
-        elementos.filtroClientWeb.value;
 
     const java =
         elementos.filtroJava.value;
@@ -839,12 +1167,10 @@ function aplicarFiltros() {
                     .includes(buscaCliente);
 
             const correspondeVersaoRub =
-                !versaoRub ||
-                dados.versaoRub === versaoRub;
+                filtroMultiploRub.aceita(dados.versaoRub);
 
             const correspondeClientWeb =
-                !versaoClientWeb ||
-                dados.versaoClientWeb === versaoClientWeb;
+                filtroMultiploClientWeb.aceita(dados.versaoClientWeb);
 
             const correspondeJava =
                 !java ||
@@ -874,8 +1200,8 @@ function aplicarFiltros() {
 
 function limparFiltros() {
     elementos.filtroCliente.value = "";
-    elementos.filtroVersaoRub.value = "";
-    elementos.filtroClientWeb.value = "";
+    filtroMultiploRub.limpar();
+    filtroMultiploClientWeb.limpar();
     elementos.filtroJava.value = "";
     elementos.filtroTipo.value = "";
     elementos.filtroData.value = "";
@@ -935,16 +1261,6 @@ async function carregarPlanilha() {
 
 elementos.filtroCliente.addEventListener(
     "input",
-    aplicarFiltros
-);
-
-elementos.filtroVersaoRub.addEventListener(
-    "change",
-    aplicarFiltros
-);
-
-elementos.filtroClientWeb.addEventListener(
-    "change",
     aplicarFiltros
 );
 
