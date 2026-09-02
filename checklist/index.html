@@ -68,119 +68,204 @@ body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(
     <span id="sourceStatus">Dados da planilha</span>
   </div>
   <section class="list" id="list"></section>
-  <div class="footer-note">Os totais de Ticket e Issue consideram números/códigos distintos informados na planilha.</div>
+  <div class="footer-note">Dados atualizados automaticamente a cada 30 segundos.</div>
 </main>
 
 <script>
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1cyvC4-GOKrDP98p3KRkzir6-NjnIwVX9/gviz/tq?tqx=out:csv&gid=992054829";
-const REFRESH_MS = 5 * 60 * 1000;
+"use strict";
 
-function isValidRef(v) {
-  const s = String(v ?? '').trim().toLowerCase().replace(/\s/g,'');
-  return !['','n/a','n\\a','na','none','nan'].includes(s);
-}
-function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function badge(value, cls) {
-  const na = !isValidRef(value);
-  return `<span class="badge ${cls} ${na?'na':''}">${esc(value || 'n/a')}</span>`;
-}
+const SHEET_ID = "1JlzmXctM6C2N-YybJtbrNM3FDaNfZF-kuzhJ581ilQU";
+const GID = "992054829";
+const REFRESH_MS = 30000;
+
+// A linha 5 contém os cabeçalhos reais da planilha.
+// O range A5:K ignora o título e linhas vazias acima.
+const CSV_URL =
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&range=A5:K`;
+
 function parseCSV(text) {
   const rows = [];
-  let row = [], field = '', quoted = false;
+  let row = [], field = "", quoted = false;
+
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
+
     if (quoted) {
-      if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
-      else if (ch === '"') quoted = false;
-      else field += ch;
+      if (ch === '"' && text[i + 1] === '"') {
+        field += '"';
+        i++;
+      } else if (ch === '"') {
+        quoted = false;
+      } else {
+        field += ch;
+      }
     } else {
       if (ch === '"') quoted = true;
-      else if (ch === ',') { row.push(field); field = ''; }
-      else if (ch === '\n') { row.push(field.replace(/\r$/, '')); rows.push(row); row = []; field = ''; }
-      else field += ch;
+      else if (ch === ',') {
+        row.push(field);
+        field = "";
+      } else if (ch === "\n") {
+        row.push(field.replace(/\r$/, ""));
+        rows.push(row);
+        row = [];
+        field = "";
+      } else {
+        field += ch;
+      }
     }
   }
-  if (field.length || row.length) { row.push(field.replace(/\r$/, '')); rows.push(row); }
+
+  if (field.length || row.length) {
+    row.push(field.replace(/\r$/, ""));
+    rows.push(row);
+  }
+
   return rows;
 }
-function norm(v) {
-  return String(v ?? '').trim().toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+function normalizar(v) {
+  return String(v ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\\/g, "")
+    .trim()
+    .toLowerCase();
 }
-function findHeaderRow(rows) {
-  return rows.findIndex(r => {
-    const n = r.map(norm);
-    return n.includes('data') && n.some(x => x.includes('tipo de teste')) && n.includes('ticket');
-  });
+
+function isValidRef(v) {
+  const s = String(v ?? "").trim().toLowerCase().replace(/\s/g, "");
+  return !["", "n/a", "n\\a", "na", "none", "nan", "-"].includes(s);
 }
-function sheetToObjects(rows) {
-  const hi = findHeaderRow(rows);
-  if (hi < 0) throw new Error('Cabeçalho da planilha não encontrado.');
-  const hdr = rows[hi].map(norm);
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c]));
+}
+
+function badge(value, cls) {
+  const na = !isValidRef(value);
+  return `<span class="badge ${cls} ${na ? "na" : ""}">${esc(value || "n/a")}</span>`;
+}
+
+function converterLinhas(rows) {
+  if (!rows.length) return [];
+
+  const headers = rows[0].map(normalizar);
+
+  const indexOf = (...nomes) =>
+    headers.findIndex(h => nomes.map(normalizar).includes(h));
+
   const idx = {
-    data: hdr.findIndex(x => x === 'data'),
-    tipo: hdr.findIndex(x => x.includes('tipo de teste')),
-    rub: hdr.findIndex(x => x.includes('versao rub')),
-    client: hdr.findIndex(x => x.includes('versao client') || x.includes('vue')),
-    plugin: hdr.findIndex(x => x === 'plugin'),
-    ticket: hdr.findIndex(x => x === 'ticket'),
-    issue: hdr.findIndex(x => x === 'issue')
+    data: indexOf("Data"),
+    tipo: indexOf("Tipo de teste"),
+    rub: indexOf("Versão RUB", "Versao RUB"),
+    client: indexOf("Versão client VUE", "Versão Client VUE", "Versao client VUE"),
+    plugin: indexOf("Plugin"),
+    ticket: indexOf("Ticket"),
+    issue: indexOf("Issue")
   };
-  const val = (r, i) => i >= 0 && r[i] != null && String(r[i]).trim() ? String(r[i]).trim() : 'n/a';
-  return rows.slice(hi + 1)
-    .filter(r => r.some(v => String(v ?? '').trim()))
+
+  const get = (row, i) => {
+    if (i < 0) return "n/a";
+    const value = row[i];
+    return value != null && String(value).trim() ? String(value).trim() : "n/a";
+  };
+
+  return rows
+    .slice(1)
+    .filter(r => r.some(v => String(v ?? "").trim() !== ""))
     .map(r => ({
-      data: val(r, idx.data),
-      tipo: val(r, idx.tipo),
-      rub: val(r, idx.rub),
-      client: val(r, idx.client),
-      plugin: val(r, idx.plugin),
-      ticket: val(r, idx.ticket),
-      issue: val(r, idx.issue)
-    }));
+      data: get(r, idx.data),
+      tipo: get(r, idx.tipo),
+      rub: get(r, idx.rub),
+      client: get(r, idx.client),
+      plugin: get(r, idx.plugin),
+      ticket: get(r, idx.ticket),
+      issue: get(r, idx.issue)
+    }))
+    .filter(r =>
+      [r.data, r.tipo, r.rub, r.client, r.plugin, r.ticket, r.issue]
+        .some(isValidRef)
+    );
 }
-function render(data, source='Google Sheets') {
-  const tickets = new Set(data.filter(r=>isValidRef(r.ticket)).map(r=>String(r.ticket).trim()));
-  const issues = new Set(data.filter(r=>isValidRef(r.issue)).map(r=>String(r.issue).trim()));
 
-  document.getElementById('kpiTests').textContent = data.length;
-  document.getElementById('kpiTickets').textContent = tickets.size;
-  document.getElementById('kpiIssues').textContent = issues.size;
-  document.getElementById('sourceStatus').textContent = source;
+function render(data, source) {
+  const tickets = new Set(
+    data.filter(r => isValidRef(r.ticket)).map(r => String(r.ticket).trim())
+  );
+  const issues = new Set(
+    data.filter(r => isValidRef(r.issue)).map(r => String(r.issue).trim())
+  );
 
-  document.getElementById('list').innerHTML = data.map(r => `
+  document.getElementById("kpiTests").textContent = data.length;
+  document.getElementById("kpiTickets").textContent = tickets.size;
+  document.getElementById("kpiIssues").textContent = issues.size;
+  document.getElementById("sourceStatus").textContent = source;
+
+  document.getElementById("list").innerHTML = data.map(r => `
     <article class="row">
       <div class="cell"><span class="label">Data</span><span class="value">${esc(r.data)}</span></div>
       <div class="cell"><span class="label">Tipo de teste</span><span class="value type">${esc(r.tipo)}</span></div>
-      <div class="cell"><span class="label">Versão RUB</span>${badge(r.rub,'rub')}</div>
-      <div class="cell"><span class="label">Versão Client VUE</span>${badge(r.client,'client')}</div>
-      <div class="cell"><span class="label">Plugin</span>${badge(r.plugin,'plugin')}</div>
-      <div class="cell"><span class="label">Ticket</span>${badge(r.ticket,'ticket')}</div>
-      <div class="cell"><span class="label">Issue</span>${badge(r.issue,'issue')}</div>
+      <div class="cell"><span class="label">Versão RUB</span>${badge(r.rub, "rub")}</div>
+      <div class="cell"><span class="label">Versão Client VUE</span>${badge(r.client, "client")}</div>
+      <div class="cell"><span class="label">Plugin</span>${badge(r.plugin, "plugin")}</div>
+      <div class="cell"><span class="label">Ticket</span>${badge(r.ticket, "ticket")}</div>
+      <div class="cell"><span class="label">Issue</span>${badge(r.issue, "issue")}</div>
     </article>
-  `).join('');
+  `).join("");
 }
-async function loadSheet() {
-  const status = document.getElementById('sourceStatus');
-  status.textContent = 'Atualizando...';
+
+async function carregarPlanilha() {
+  const status = document.getElementById("sourceStatus");
+  status.textContent = "Atualizando...";
+
   try {
-    const url = SHEET_CSV_URL + '&_=' + Date.now();
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const csv = await res.text();
-    const data = sheetToObjects(parseCSV(csv));
-    render(data, 'Atualizado: ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}));
-  } catch (err) {
-    console.error(err);
-    status.textContent = 'Não foi possível ler o Google Sheets';
-    document.getElementById('list').innerHTML =
-      '<article class="row" style="grid-template-columns:1fr"><div class="cell"><span class="value">Verifique se a planilha está compartilhada/publicada para leitura por link.</span></div></article>';
+    const response = await fetch(CSV_URL + "&_=" + Date.now(), {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const csv = await response.text();
+
+    if (!csv || csv.trim().startsWith("<!DOCTYPE html")) {
+      throw new Error("A planilha não retornou CSV. Verifique o acesso por link.");
+    }
+
+    const data = converterLinhas(parseCSV(csv));
+
+    if (!data.length) {
+      throw new Error("Nenhum registro encontrado a partir da linha 5.");
+    }
+
+    render(
+      data,
+      "Atualizado: " + new Date().toLocaleTimeString("pt-BR")
+    );
+  } catch (error) {
+    console.error("Erro ao carregar planilha:", error);
+    status.textContent = "Erro ao carregar dados";
+    document.getElementById("list").innerHTML =
+      `<article class="row" style="grid-template-columns:1fr">
+        <div class="cell">
+          <span class="value">
+            Não foi possível ler a planilha. Confirme que ela está como
+            "Qualquer pessoa com o link - Leitor".
+          </span>
+        </div>
+      </article>`;
   }
 }
-loadSheet();
-setInterval(loadSheet, REFRESH_MS);
+
+carregarPlanilha();
+setInterval(carregarPlanilha, REFRESH_MS);
 </script>
 </body>
 </html>
