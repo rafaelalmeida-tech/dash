@@ -8,264 +8,86 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary:#5B5698;
-  --primary-2:#6f69ac;
-  --bg:#f5f6fa;
-  --card:#ffffff;
-  --text:#171a2b;
-  --muted:#7b8194;
-  --border:#e1e4ed;
+:root{
+  --primary:#5B5698;--primary-2:#6f69ac;--primary-dark:#21102f;
+  --bg:#f6f4fa;--card:#fff;--text:#211a2b;--muted:#746b80;--border:#e5dfec;
+  --shadow:0 4px 20px rgba(32,16,47,.07)
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--text)}
+body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--text);transition:.25s}
+.gic-topbar{min-height:112px;padding:18px 30px;display:flex;align-items:center;background:linear-gradient(100deg,#050307 0%,#16051f 42%,#2a0738 100%);box-shadow:0 8px 28px rgba(32,16,47,.20);position:relative;overflow:hidden}
+.gic-topbar:after{content:"";position:absolute;width:330px;height:330px;right:-90px;bottom:-245px;border:1px solid rgba(255,255,255,.14);border-radius:50%}
+.gic-logo{width:150px;max-height:76px;object-fit:contain;object-position:left center}
 .container{max-width:1380px;margin:0 auto;padding:28px 28px 44px}
-.hero{background:linear-gradient(120deg,var(--primary),var(--primary-2));border-radius:18px;padding:27px 30px;color:#fff;box-shadow:0 13px 30px rgba(91,86,152,.23)}
+.hero{background:linear-gradient(120deg,#21102f,var(--primary));border-radius:18px;padding:25px 28px;color:#fff;box-shadow:0 13px 30px rgba(91,86,152,.23);display:flex;align-items:center;justify-content:space-between;gap:20px}
 .hero h1{margin:0;font-size:26px;letter-spacing:.01em}
+.theme-toggle{height:42px;padding:0 14px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.10);color:#fff;font:600 13px Inter;cursor:pointer;display:flex;align-items:center;gap:8px}
+.theme-toggle:hover{background:rgba(255,255,255,.17)}
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0 22px}
-.kpi{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 10px rgba(20,24,40,.04)}
+.kpi{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--primary);border-radius:16px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
 .kpi .name{font-size:13px;color:var(--muted);font-weight:600}
 .kpi .number{font-size:28px;color:var(--primary);font-weight:700}
 .section-title{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 12px}
-.section-title h2{font-size:17px;margin:0}
-.section-title span{font-size:12px;color:var(--muted)}
+.section-title h2{font-size:17px;margin:0}.section-title span{font-size:12px;color:var(--muted)}
 .list{display:grid;gap:11px}
-.row{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 18px;display:grid;grid-template-columns:115px minmax(150px,1.25fr) 120px minmax(160px,1.25fr) minmax(145px,1.15fr) 105px 110px;gap:14px;align-items:center;min-height:80px;box-shadow:0 2px 7px rgba(20,24,40,.025)}
-.cell{min-width:0}
-.label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#9aa0b2;margin-bottom:6px;font-weight:600}
-.value{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.type{font-size:13px;font-weight:650}
+.row{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 18px;display:grid;grid-template-columns:115px minmax(150px,1.25fr) 120px minmax(160px,1.25fr) minmax(145px,1.15fr) 105px 110px;gap:14px;align-items:center;min-height:80px;box-shadow:var(--shadow)}
+.cell{min-width:0}.label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px;font-weight:600}
+.value{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.type{font-weight:650}
 .badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rub{background:#efedfa;color:#524d90;border:1px solid #d6d2ef}
-.client{background:#eef6ff;color:#2f6595;border:1px solid #cfe1f3}
-.plugin{background:#f2f4f7;color:#475467;border:1px solid #e1e5ea}
-.ticket{background:#edf4ff;color:#315fa4;border:1px solid #cbdcf5}
-.issue{background:#fff1f1;color:#c83c3c;border:1px solid #f4c7c7}
-.na{color:#a0a6b5;background:#f5f6f8;border-color:#e6e8ec}
-.footer-note{margin-top:15px;color:#8b91a2;font-size:11px;text-align:right}
-@media(max-width:1100px){
- .row{grid-template-columns:repeat(4,1fr)}
-}
-@media(max-width:720px){
- .container{padding:18px 12px 30px}
- .kpis{grid-template-columns:1fr}
- .row{grid-template-columns:1fr 1fr}
-}
+.rub{background:#efedfa;color:#524d90;border:1px solid #d6d2ef}.client{background:#eef6ff;color:#2f6595;border:1px solid #cfe1f3}.plugin{background:#f2f4f7;color:#475467;border:1px solid #e1e5ea}.ticket{background:#edf4ff;color:#315fa4;border:1px solid #cbdcf5}.issue{background:#fff1f1;color:#c83c3c;border:1px solid #f4c7c7}.na{color:#a0a6b5;background:#f5f6f8;border-color:#e6e8ec}
+.footer-note{margin-top:15px;color:var(--muted);font-size:11px;text-align:right}
+
+/* Dark mode */
+body.dark-mode{--bg:#100d16;--card:#19151f;--text:#f2eff7;--muted:#aaa2b6;--border:#332d3d;--primary:#8179c4;--shadow:0 4px 20px rgba(0,0,0,.24)}
+body.dark-mode .hero{background:linear-gradient(120deg,#17091f,#453d7b)}
+body.dark-mode .rub{background:#2b2540;color:#d4cff3;border-color:#4b4268}
+body.dark-mode .client{background:#17283a;color:#a9cff1;border-color:#294660}
+body.dark-mode .plugin{background:#25232a;color:#d0ccd5;border-color:#403b47}
+body.dark-mode .ticket{background:#19283d;color:#a9c9f3;border-color:#2c4668}
+body.dark-mode .issue{background:#351e25;color:#f3adb8;border-color:#60303b}
+body.dark-mode .na{background:#242129;color:#9f99aa;border-color:#39343f}
+
+@media(max-width:1100px){.row{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:720px){.gic-topbar{min-height:90px;padding:14px 18px}.gic-logo{width:125px}.container{padding:18px 12px 30px}.hero{align-items:flex-start}.kpis{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
+<header class="gic-topbar"><img class="gic-logo" src="data:image/png;base64,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" alt="GIC"></header>
 <main class="container">
-  <section class="hero"><h1>Check List RUB</h1></section>
-
+  <section class="hero">
+    <h1>Check List RUB</h1>
+    <button id="themeToggle" class="theme-toggle" type="button"><span id="themeIcon">☾</span><span id="themeText">Dark mode</span></button>
+  </section>
   <section class="kpis">
     <article class="kpi"><div class="name">Total de testes</div><div class="number" id="kpiTests">0</div></article>
     <article class="kpi"><div class="name">Tickets abertos no Movidesk</div><div class="number" id="kpiTickets">0</div></article>
     <article class="kpi"><div class="name">Issues</div><div class="number" id="kpiIssues">0</div></article>
   </section>
-
-  <div class="section-title">
-    <h2>Registros de testes</h2>
-    <span id="sourceStatus">Dados da planilha</span>
-  </div>
+  <div class="section-title"><h2>Registros de testes</h2><span id="sourceStatus">Dados da planilha</span></div>
   <section class="list" id="list"></section>
   <div class="footer-note">Dados atualizados automaticamente a cada 30 segundos.</div>
 </main>
-
 <script>
 "use strict";
+const themeToggle=document.getElementById("themeToggle"),themeIcon=document.getElementById("themeIcon"),themeText=document.getElementById("themeText");
+function aplicarTema(t){const d=t==="dark";document.body.classList.toggle("dark-mode",d);themeIcon.textContent=d?"☀":"☾";themeText.textContent=d?"Modo claro":"Dark mode";localStorage.setItem("checklist-rub-theme",t)}
+const temaSalvo=localStorage.getItem("checklist-rub-theme");if(temaSalvo)aplicarTema(temaSalvo);
+themeToggle.addEventListener("click",()=>aplicarTema(document.body.classList.contains("dark-mode")?"light":"dark"));
 
-const SHEET_ID = "1JlzmXctM6C2N-YybJtbrNM3FDaNfZF-kuzhJ581ilQU";
-const GID = "992054829";
-const REFRESH_MS = 30000;
+const SHEET_ID="1JlzmXctM6C2N-YybJtbrNM3FDaNfZF-kuzhJ581ilQU";
+const GID="992054829";
+const REFRESH_MS=30000;
+const CSV_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&range=A5:K`;
 
-// A linha 5 contém os cabeçalhos reais da planilha.
-// O range A5:K ignora o título e linhas vazias acima.
-const CSV_URL =
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&range=A5:K`;
-
-function parseCSV(text) {
-  const rows = [];
-  let row = [], field = "", quoted = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-
-    if (quoted) {
-      if (ch === '"' && text[i + 1] === '"') {
-        field += '"';
-        i++;
-      } else if (ch === '"') {
-        quoted = false;
-      } else {
-        field += ch;
-      }
-    } else {
-      if (ch === '"') quoted = true;
-      else if (ch === ',') {
-        row.push(field);
-        field = "";
-      } else if (ch === "\n") {
-        row.push(field.replace(/\r$/, ""));
-        rows.push(row);
-        row = [];
-        field = "";
-      } else {
-        field += ch;
-      }
-    }
-  }
-
-  if (field.length || row.length) {
-    row.push(field.replace(/\r$/, ""));
-    rows.push(row);
-  }
-
-  return rows;
-}
-
-function normalizar(v) {
-  return String(v ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\\/g, "")
-    .trim()
-    .toLowerCase();
-}
-
-function isValidRef(v) {
-  const s = String(v ?? "").trim().toLowerCase().replace(/\s/g, "");
-  return !["", "n/a", "n\\a", "na", "none", "nan", "-"].includes(s);
-}
-
-function esc(s) {
-  return String(s ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[c]));
-}
-
-function badge(value, cls) {
-  const na = !isValidRef(value);
-  return `<span class="badge ${cls} ${na ? "na" : ""}">${esc(value || "n/a")}</span>`;
-}
-
-function converterLinhas(rows) {
-  if (!rows.length) return [];
-
-  const headers = rows[0].map(normalizar);
-
-  const indexOf = (...nomes) =>
-    headers.findIndex(h => nomes.map(normalizar).includes(h));
-
-  const idx = {
-    data: indexOf("Data"),
-    tipo: indexOf("Tipo de teste"),
-    rub: indexOf("Versão RUB", "Versao RUB"),
-    client: indexOf("Versão client VUE", "Versão Client VUE", "Versao client VUE"),
-    plugin: indexOf("Plugin"),
-    ticket: indexOf("Ticket"),
-    issue: indexOf("Issue")
-  };
-
-  const get = (row, i) => {
-    if (i < 0) return "n/a";
-    const value = row[i];
-    return value != null && String(value).trim() ? String(value).trim() : "n/a";
-  };
-
-  return rows
-    .slice(1)
-    .filter(r => r.some(v => String(v ?? "").trim() !== ""))
-    .map(r => ({
-      data: get(r, idx.data),
-      tipo: get(r, idx.tipo),
-      rub: get(r, idx.rub),
-      client: get(r, idx.client),
-      plugin: get(r, idx.plugin),
-      ticket: get(r, idx.ticket),
-      issue: get(r, idx.issue)
-    }))
-    .filter(r =>
-      [r.data, r.tipo, r.rub, r.client, r.plugin, r.ticket, r.issue]
-        .some(isValidRef)
-    );
-}
-
-function render(data, source) {
-  const tickets = new Set(
-    data.filter(r => isValidRef(r.ticket)).map(r => String(r.ticket).trim())
-  );
-  const issues = new Set(
-    data.filter(r => isValidRef(r.issue)).map(r => String(r.issue).trim())
-  );
-
-  document.getElementById("kpiTests").textContent = data.length;
-  document.getElementById("kpiTickets").textContent = tickets.size;
-  document.getElementById("kpiIssues").textContent = issues.size;
-  document.getElementById("sourceStatus").textContent = source;
-
-  document.getElementById("list").innerHTML = data.map(r => `
-    <article class="row">
-      <div class="cell"><span class="label">Data</span><span class="value">${esc(r.data)}</span></div>
-      <div class="cell"><span class="label">Tipo de teste</span><span class="value type">${esc(r.tipo)}</span></div>
-      <div class="cell"><span class="label">Versão RUB</span>${badge(r.rub, "rub")}</div>
-      <div class="cell"><span class="label">Versão Client VUE</span>${badge(r.client, "client")}</div>
-      <div class="cell"><span class="label">Plugin</span>${badge(r.plugin, "plugin")}</div>
-      <div class="cell"><span class="label">Ticket</span>${badge(r.ticket, "ticket")}</div>
-      <div class="cell"><span class="label">Issue</span>${badge(r.issue, "issue")}</div>
-    </article>
-  `).join("");
-}
-
-async function carregarPlanilha() {
-  const status = document.getElementById("sourceStatus");
-  status.textContent = "Atualizando...";
-
-  try {
-    const response = await fetch(CSV_URL + "&_=" + Date.now(), {
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
-    }
-
-    const csv = await response.text();
-
-    if (!csv || csv.trim().startsWith("<!DOCTYPE html")) {
-      throw new Error("A planilha não retornou CSV. Verifique o acesso por link.");
-    }
-
-    const data = converterLinhas(parseCSV(csv));
-
-    if (!data.length) {
-      throw new Error("Nenhum registro encontrado a partir da linha 5.");
-    }
-
-    render(
-      data,
-      "Atualizado: " + new Date().toLocaleTimeString("pt-BR")
-    );
-  } catch (error) {
-    console.error("Erro ao carregar planilha:", error);
-    status.textContent = "Erro ao carregar dados";
-    document.getElementById("list").innerHTML =
-      `<article class="row" style="grid-template-columns:1fr">
-        <div class="cell">
-          <span class="value">
-            Não foi possível ler a planilha. Confirme que ela está como
-            "Qualquer pessoa com o link - Leitor".
-          </span>
-        </div>
-      </article>`;
-  }
-}
-
-carregarPlanilha();
-setInterval(carregarPlanilha, REFRESH_MS);
+function parseCSV(text){const rows=[];let row=[],field="",quoted=false;for(let i=0;i<text.length;i++){const ch=text[i];if(quoted){if(ch==='"'&&text[i+1]==='"'){field+='"';i++}else if(ch==='"')quoted=false;else field+=ch}else{if(ch==='"')quoted=true;else if(ch===','){row.push(field);field=""}else if(ch==="\n"){row.push(field.replace(/\r$/,""));rows.push(row);row=[];field=""}else field+=ch}}if(field.length||row.length){row.push(field.replace(/\r$/,""));rows.push(row)}return rows}
+function normalizar(v){return String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\\/g,"").trim().toLowerCase()}
+function isValidRef(v){const s=String(v??"").trim().toLowerCase().replace(/\s/g,"");return !["","n/a","n\\a","na","none","nan","-"].includes(s)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function badge(value,cls){const na=!isValidRef(value);return `<span class="badge ${cls} ${na?"na":""}">${esc(value||"n/a")}</span>`}
+function converterLinhas(rows){if(!rows.length)return[];const headers=rows[0].map(normalizar);const indexOf=(...nomes)=>headers.findIndex(h=>nomes.map(normalizar).includes(h));const idx={data:indexOf("Data"),tipo:indexOf("Tipo de teste"),rub:indexOf("Versão RUB","Versao RUB"),client:indexOf("Versão client VUE","Versão Client VUE","Versao client VUE"),plugin:indexOf("Plugin"),ticket:indexOf("Ticket"),issue:indexOf("Issue")};const get=(row,i)=>{if(i<0)return"n/a";const value=row[i];return value!=null&&String(value).trim()?String(value).trim():"n/a"};return rows.slice(1).filter(r=>r.some(v=>String(v??"").trim()!=="")).map(r=>({data:get(r,idx.data),tipo:get(r,idx.tipo),rub:get(r,idx.rub),client:get(r,idx.client),plugin:get(r,idx.plugin),ticket:get(r,idx.ticket),issue:get(r,idx.issue)})).filter(r=>[r.data,r.tipo,r.rub,r.client,r.plugin,r.ticket,r.issue].some(isValidRef))}
+function render(data,source){const tickets=new Set(data.filter(r=>isValidRef(r.ticket)).map(r=>String(r.ticket).trim()));const issues=new Set(data.filter(r=>isValidRef(r.issue)).map(r=>String(r.issue).trim()));document.getElementById("kpiTests").textContent=data.length;document.getElementById("kpiTickets").textContent=tickets.size;document.getElementById("kpiIssues").textContent=issues.size;document.getElementById("sourceStatus").textContent=source;document.getElementById("list").innerHTML=data.map(r=>`<article class="row"><div class="cell"><span class="label">Data</span><span class="value">${esc(r.data)}</span></div><div class="cell"><span class="label">Tipo de teste</span><span class="value type">${esc(r.tipo)}</span></div><div class="cell"><span class="label">Versão RUB</span>${badge(r.rub,"rub")}</div><div class="cell"><span class="label">Versão Client VUE</span>${badge(r.client,"client")}</div><div class="cell"><span class="label">Plugin</span>${badge(r.plugin,"plugin")}</div><div class="cell"><span class="label">Ticket</span>${badge(r.ticket,"ticket")}</div><div class="cell"><span class="label">Issue</span>${badge(r.issue,"issue")}</div></article>`).join("")}
+async function carregarPlanilha(){const status=document.getElementById("sourceStatus");status.textContent="Atualizando...";try{const response=await fetch(CSV_URL+"&_="+Date.now(),{cache:"no-store"});if(!response.ok)throw new Error(`Erro HTTP: ${response.status}`);const csv=await response.text();if(!csv||csv.trim().startsWith("<!DOCTYPE html"))throw new Error("A planilha não retornou CSV.");const data=converterLinhas(parseCSV(csv));if(!data.length)throw new Error("Nenhum registro encontrado.");render(data,"Atualizado: "+new Date().toLocaleTimeString("pt-BR"))}catch(error){console.error("Erro ao carregar planilha:",error);status.textContent="Erro ao carregar dados";document.getElementById("list").innerHTML=`<article class="row" style="grid-template-columns:1fr"><div class="cell"><span class="value">Não foi possível ler a planilha. Confirme que ela está como "Qualquer pessoa com o link - Leitor".</span></div></article>`}}
+carregarPlanilha();setInterval(carregarPlanilha,REFRESH_MS);
 </script>
 </body>
 </html>
