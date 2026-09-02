@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check List RUB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#5B5698;
+  --primary-2:#6f69ac;
+  --bg:#f5f6fa;
+  --card:#ffffff;
+  --text:#171a2b;
+  --muted:#7b8194;
+  --border:#e1e4ed;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--text)}
+.container{max-width:1380px;margin:0 auto;padding:28px 28px 44px}
+.hero{background:linear-gradient(120deg,var(--primary),var(--primary-2));border-radius:18px;padding:27px 30px;color:#fff;box-shadow:0 13px 30px rgba(91,86,152,.23)}
+.hero h1{margin:0;font-size:26px;letter-spacing:.01em}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0 22px}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 10px rgba(20,24,40,.04)}
+.kpi .name{font-size:13px;color:var(--muted);font-weight:600}
+.kpi .number{font-size:28px;color:var(--primary);font-weight:700}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 12px}
+.section-title h2{font-size:17px;margin:0}
+.section-title span{font-size:12px;color:var(--muted)}
+.list{display:grid;gap:11px}
+.row{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 18px;display:grid;grid-template-columns:115px minmax(150px,1.25fr) 120px minmax(160px,1.25fr) minmax(145px,1.15fr) 105px 110px;gap:14px;align-items:center;min-height:80px;box-shadow:0 2px 7px rgba(20,24,40,.025)}
+.cell{min-width:0}
+.label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#9aa0b2;margin-bottom:6px;font-weight:600}
+.value{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.type{font-size:13px;font-weight:650}
+.badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rub{background:#efedfa;color:#524d90;border:1px solid #d6d2ef}
+.client{background:#eef6ff;color:#2f6595;border:1px solid #cfe1f3}
+.plugin{background:#f2f4f7;color:#475467;border:1px solid #e1e5ea}
+.ticket{background:#edf4ff;color:#315fa4;border:1px solid #cbdcf5}
+.issue{background:#fff1f1;color:#c83c3c;border:1px solid #f4c7c7}
+.na{color:#a0a6b5;background:#f5f6f8;border-color:#e6e8ec}
+.footer-note{margin-top:15px;color:#8b91a2;font-size:11px;text-align:right}
+@media(max-width:1100px){
+ .row{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:720px){
+ .container{padding:18px 12px 30px}
+ .kpis{grid-template-columns:1fr}
+ .row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<main class="container">
+  <section class="hero"><h1>Check List RUB</h1></section>
+
+  <section class="kpis">
+    <article class="kpi"><div class="name">Total de testes</div><div class="number" id="kpiTests">0</div></article>
+    <article class="kpi"><div class="name">Tickets abertos no Movidesk</div><div class="number" id="kpiTickets">0</div></article>
+    <article class="kpi"><div class="name">Issues</div><div class="number" id="kpiIssues">0</div></article>
+  </section>
+
+  <div class="section-title">
+    <h2>Registros de testes</h2>
+    <span id="sourceStatus">Dados da planilha</span>
+  </div>
+  <section class="list" id="list"></section>
+  <div class="footer-note">Os totais de Ticket e Issue consideram números/códigos distintos informados na planilha.</div>
+</main>
+
+<script>
+// Snapshot embutido da planilha enviada. Isso permite abrir o HTML mesmo sem servidor.
+const EMBEDDED_DATA = [{"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Fornecedores", "ticket": "25154", "issue": "TEC-469"}, {"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Inventários", "ticket": "25154", "issue": "TEC-469"}, {"data": "19/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Fornecedores", "ticket": "25316", "issue": "n\\a"}, {"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Auditoria_PRES", "ticket": "25311", "issue": "n\\a"}, {"data": "20/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Acesso", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Dashboard_Validade", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Dashboard_Auditoria", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Promotores", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Promotores", "ticket": "n\\a", "issue": "n\\a"}, {"data": "26/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "26/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "26/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "27/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Promotores", "ticket": "25368", "issue": "TEC-528"}, {"data": "01/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Conjunto_produto", "ticket": "n\\a", "issue": "n\\a"}, {"data": "01/04/2026", "tipo": "Ticket", "rub": "RUB 25.4.8", "client": "Client Web 1.0.22", "plugin": "Auditoria_PRES", "ticket": "25406", "issue": "TEC-556"}, {"data": "02/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Acesso", "ticket": "25409", "issue": "TEC-557"}, {"data": "07/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Dashboard_Validade", "ticket": "25440", "issue": "TEC-580"}, {"data": "14/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 25.4.8", "client": "Client Web 1.0.22", "plugin": "Recebimeto", "ticket": "25508", "issue": "n/a"}, {"data": "01/06/2026", "tipo": "Mini_regressivo", "rub": "2011-04-25 00:00:00", "client": "Client Web 1.0.22", "plugin": "dispositivos", "ticket": "n\\a", "issue": "n\\a"}, {"data": "01/06/2026", "tipo": "Mini_regressivo", "rub": "2011-04-25 00:00:00", "client": "Client Web 1.0.22", "plugin": "Região", "ticket": "n\\a", "issue": "n\\a"}, {"data": "10/06/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.7", "plugin": "Locais", "ticket": "25836", "issue": "TEC-777"}, {"data": "08/07/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.14", "plugin": "Locais", "ticket": "26031", "issue": "TEC-898"}, {"data": "21/07/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.14", "plugin": "Grupo", "ticket": "n\\a", "issue": "n/a"}, {"data": "21/0726", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.14", "plugin": "Usuario", "ticket": "n\\a", "issue": "n/a"}, {"data": "01/09/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.16", "plugin": "Promotores", "ticket": "26389", "issue": "TEC-1217"}, {"data": "01/09/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.16", "plugin": "Dashboard_Validade", "ticket": "26399", "issue": "TEC-1216"}];
+
+function isValidRef(v) {
+  const s = String(v ?? '').trim().toLowerCase().replace(/\s/g,'');
+  return !['','n/a','n\\a','na','none','nan'].includes(s);
+}
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function badge(value, cls) {
+  const na = !isValidRef(value);
+  return `<span class="badge ${cls} ${na?'na':''}">${esc(value || 'n/a')}</span>`;
+}
+function render(data, source='planilha enviada') {
+  const tickets = new Set(data.filter(r=>isValidRef(r.ticket)).map(r=>String(r.ticket).trim()));
+  const issues = new Set(data.filter(r=>isValidRef(r.issue)).map(r=>String(r.issue).trim()));
+
+  document.getElementById('kpiTests').textContent = data.length;
+  document.getElementById('kpiTickets').textContent = tickets.size;
+  document.getElementById('kpiIssues').textContent = issues.size;
+  document.getElementById('sourceStatus').textContent = source;
+
+  document.getElementById('list').innerHTML = data.map(r => `
+    <article class="row">
+      <div class="cell"><span class="label">Data</span><span class="value">${esc(r.data)}</span></div>
+      <div class="cell"><span class="label">Tipo de teste</span><span class="value type">${esc(r.tipo)}</span></div>
+      <div class="cell"><span class="label">Versão RUB</span>${badge(r.rub,'rub')}</div>
+      <div class="cell"><span class="label">Versão Client VUE</span>${badge(r.client,'client')}</div>
+      <div class="cell"><span class="label">Plugin</span>${badge(r.plugin,'plugin')}</div>
+      <div class="cell"><span class="label">Ticket</span>${badge(r.ticket,'ticket')}</div>
+      <div class="cell"><span class="label">Issue</span>${badge(r.issue,'issue')}</div>
+    </article>
+  `).join('');
+}
+
+// Renderiza imediatamente; não depende de upload manual nem fetch.
+render(EMBEDDED_DATA);
+</script>
+</body>
+</html>
