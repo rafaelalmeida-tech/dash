@@ -541,6 +541,69 @@ tbody tr:hover {
     .gic-logo { width: 125px; }
 }
 
+
+/* DARK MODE */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 42px;
+    padding: 0 14px;
+    margin-left: auto;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 12px;
+    background: rgba(255,255,255,.10);
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.16); }
+
+body.dark-mode {
+    --background: #100d16;
+    --surface: #19151f;
+    --primary: #8179c4;
+    --primary-dark: #b9b3ea;
+    --primary-light: #282238;
+    --text: #f2eff7;
+    --muted: #aaa2b6;
+    --border: #332d3d;
+    --shadow: 0 4px 20px rgba(0,0,0,.24);
+    background: #100d16;
+}
+
+body.dark-mode .header {
+    background: linear-gradient(120deg, #17091f 0%, #453d7b 100%);
+}
+body.dark-mode .card,
+body.dark-mode .table-container,
+body.dark-mode .last-update {
+    background: var(--surface);
+}
+body.dark-mode .card .value,
+body.dark-mode .chart-title { color: #d3cef5; }
+body.dark-mode .filter-control,
+body.dark-mode .multi-filter-button,
+body.dark-mode .multi-filter-menu,
+body.dark-mode .multi-filter-search,
+body.dark-mode .multi-filter-cancel {
+    background: #211c29;
+    color: var(--text);
+    border-color: #40384c;
+}
+body.dark-mode .multi-filter-option:hover,
+body.dark-mode tbody tr:hover { background: #241f2d; }
+body.dark-mode thead {
+    background: linear-gradient(90deg, #2b2540, #211c2e);
+}
+body.dark-mode th { color: #d4cff3; }
+body.dark-mode .filter-group label,
+body.dark-mode .result-count,
+body.dark-mode .footer-note { color: var(--muted); }
+body.dark-mode input[type="date"] { color-scheme: dark; }
+
 </style>
 </head>
 
@@ -560,6 +623,10 @@ tbody tr:hover {
         Última atualização:
         <strong id="lastUpdate">--</strong>
     </div>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar modo escuro">
+        <span id="themeIcon">☾</span>
+        <span id="themeText">Dark mode</span>
+    </button>
 </header>
 
 <section class="cards">
@@ -699,6 +766,29 @@ tbody tr:hover {
 
 <script>
 "use strict";
+
+
+/* TEMA CLARO / ESCURO */
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+const themeText = document.getElementById("themeText");
+
+function aplicarTema(tema) {
+    const escuro = tema === "dark";
+    document.body.classList.toggle("dark-mode", escuro);
+    themeIcon.textContent = escuro ? "☀" : "☾";
+    themeText.textContent = escuro ? "Modo claro" : "Dark mode";
+    localStorage.setItem("rub-dashboard-theme", tema);
+}
+
+const temaSalvo = localStorage.getItem("rub-dashboard-theme");
+if (temaSalvo) {
+    aplicarTema(temaSalvo);
+}
+
+themeToggle.addEventListener("click", () => {
+    aplicarTema(document.body.classList.contains("dark-mode") ? "light" : "dark");
+});
 
 /* GOOGLE SHEETS */
 
