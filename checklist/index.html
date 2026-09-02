@@ -72,8 +72,8 @@ body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(
 </main>
 
 <script>
-// Snapshot embutido da planilha enviada. Isso permite abrir o HTML mesmo sem servidor.
-const EMBEDDED_DATA = [{"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Fornecedores", "ticket": "25154", "issue": "TEC-469"}, {"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Inventários", "ticket": "25154", "issue": "TEC-469"}, {"data": "19/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Fornecedores", "ticket": "25316", "issue": "n\\a"}, {"data": "19/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Auditoria_PRES", "ticket": "25311", "issue": "n\\a"}, {"data": "20/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Acesso", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Dashboard_Validade", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Dashboard_Auditoria", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Promotores", "ticket": "n\\a", "issue": "n\\a"}, {"data": "24/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Promotores", "ticket": "n\\a", "issue": "n\\a"}, {"data": "26/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "26/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "26/03/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Agenda_de_Execuções", "ticket": "n\\a", "issue": "n\\a"}, {"data": "27/03/2026", "tipo": "Ticket", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Promotores", "ticket": "25368", "issue": "TEC-528"}, {"data": "01/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Conjunto_produto", "ticket": "n\\a", "issue": "n\\a"}, {"data": "01/04/2026", "tipo": "Ticket", "rub": "RUB 25.4.8", "client": "Client Web 1.0.22", "plugin": "Auditoria_PRES", "ticket": "25406", "issue": "TEC-556"}, {"data": "02/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Acesso", "ticket": "25409", "issue": "TEC-557"}, {"data": "07/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.3", "plugin": "Dashboard_Validade", "ticket": "25440", "issue": "TEC-580"}, {"data": "14/04/2026", "tipo": "Mini_regressivo", "rub": "RUB 25.4.8", "client": "Client Web 1.0.22", "plugin": "Recebimeto", "ticket": "25508", "issue": "n/a"}, {"data": "01/06/2026", "tipo": "Mini_regressivo", "rub": "2011-04-25 00:00:00", "client": "Client Web 1.0.22", "plugin": "dispositivos", "ticket": "n\\a", "issue": "n\\a"}, {"data": "01/06/2026", "tipo": "Mini_regressivo", "rub": "2011-04-25 00:00:00", "client": "Client Web 1.0.22", "plugin": "Região", "ticket": "n\\a", "issue": "n\\a"}, {"data": "10/06/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.7", "plugin": "Locais", "ticket": "25836", "issue": "TEC-777"}, {"data": "08/07/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.14", "plugin": "Locais", "ticket": "26031", "issue": "TEC-898"}, {"data": "21/07/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.14", "plugin": "Grupo", "ticket": "n\\a", "issue": "n/a"}, {"data": "21/0726", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.14", "plugin": "Usuario", "ticket": "n\\a", "issue": "n/a"}, {"data": "01/09/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.16", "plugin": "Promotores", "ticket": "26389", "issue": "TEC-1217"}, {"data": "01/09/2026", "tipo": "Mini_regressivo", "rub": "RUB 26", "client": "Client Web 2.0.16", "plugin": "Dashboard_Validade", "ticket": "26399", "issue": "TEC-1216"}];
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1cyvC4-GOKrDP98p3KRkzir6-NjnIwVX9/gviz/tq?tqx=out:csv&gid=992054829";
+const REFRESH_MS = 5 * 60 * 1000;
 
 function isValidRef(v) {
   const s = String(v ?? '').trim().toLowerCase().replace(/\s/g,'');
@@ -86,7 +86,62 @@ function badge(value, cls) {
   const na = !isValidRef(value);
   return `<span class="badge ${cls} ${na?'na':''}">${esc(value || 'n/a')}</span>`;
 }
-function render(data, source='planilha enviada') {
+function parseCSV(text) {
+  const rows = [];
+  let row = [], field = '', quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else field += ch;
+    } else {
+      if (ch === '"') quoted = true;
+      else if (ch === ',') { row.push(field); field = ''; }
+      else if (ch === '\n') { row.push(field.replace(/\r$/, '')); rows.push(row); row = []; field = ''; }
+      else field += ch;
+    }
+  }
+  if (field.length || row.length) { row.push(field.replace(/\r$/, '')); rows.push(row); }
+  return rows;
+}
+function norm(v) {
+  return String(v ?? '').trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+function findHeaderRow(rows) {
+  return rows.findIndex(r => {
+    const n = r.map(norm);
+    return n.includes('data') && n.some(x => x.includes('tipo de teste')) && n.includes('ticket');
+  });
+}
+function sheetToObjects(rows) {
+  const hi = findHeaderRow(rows);
+  if (hi < 0) throw new Error('Cabeçalho da planilha não encontrado.');
+  const hdr = rows[hi].map(norm);
+  const idx = {
+    data: hdr.findIndex(x => x === 'data'),
+    tipo: hdr.findIndex(x => x.includes('tipo de teste')),
+    rub: hdr.findIndex(x => x.includes('versao rub')),
+    client: hdr.findIndex(x => x.includes('versao client') || x.includes('vue')),
+    plugin: hdr.findIndex(x => x === 'plugin'),
+    ticket: hdr.findIndex(x => x === 'ticket'),
+    issue: hdr.findIndex(x => x === 'issue')
+  };
+  const val = (r, i) => i >= 0 && r[i] != null && String(r[i]).trim() ? String(r[i]).trim() : 'n/a';
+  return rows.slice(hi + 1)
+    .filter(r => r.some(v => String(v ?? '').trim()))
+    .map(r => ({
+      data: val(r, idx.data),
+      tipo: val(r, idx.tipo),
+      rub: val(r, idx.rub),
+      client: val(r, idx.client),
+      plugin: val(r, idx.plugin),
+      ticket: val(r, idx.ticket),
+      issue: val(r, idx.issue)
+    }));
+}
+function render(data, source='Google Sheets') {
   const tickets = new Set(data.filter(r=>isValidRef(r.ticket)).map(r=>String(r.ticket).trim()));
   const issues = new Set(data.filter(r=>isValidRef(r.issue)).map(r=>String(r.issue).trim()));
 
@@ -107,9 +162,25 @@ function render(data, source='planilha enviada') {
     </article>
   `).join('');
 }
-
-// Renderiza imediatamente; não depende de upload manual nem fetch.
-render(EMBEDDED_DATA);
+async function loadSheet() {
+  const status = document.getElementById('sourceStatus');
+  status.textContent = 'Atualizando...';
+  try {
+    const url = SHEET_CSV_URL + '&_=' + Date.now();
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const csv = await res.text();
+    const data = sheetToObjects(parseCSV(csv));
+    render(data, 'Atualizado: ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}));
+  } catch (err) {
+    console.error(err);
+    status.textContent = 'Não foi possível ler o Google Sheets';
+    document.getElementById('list').innerHTML =
+      '<article class="row" style="grid-template-columns:1fr"><div class="cell"><span class="value">Verifique se a planilha está compartilhada/publicada para leitura por link.</span></div></article>';
+  }
+}
+loadSheet();
+setInterval(loadSheet, REFRESH_MS);
 </script>
 </body>
 </html>
